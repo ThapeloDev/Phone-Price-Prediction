@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace Prediction.Models.Time_Series_Forecasting.Cleaning
 {
-    // Sanitization modifies the input to ensure that it is valid.
-    // (such as doubling single quotes)
-    public class Sanitization
+    // The data is audited with the use of statistical and database methods to detect anomalies and contradictions.
+    public class DataAuditing
     {
     }
 }

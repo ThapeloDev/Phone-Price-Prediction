@@ -1,6 +1,7 @@
 ﻿using Prediction.Models.Enums;
 using Prediction.Models.Time_Series_Forecasting;
 using Prediction.Models.Time_Series_Forecasting.Business_Logic;
+using Prediction.Models.Time_Series_Forecasting.Cleaning;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace Prediction.Models
         {
             List<Phone> phones = new List<Phone>(); ;
             foreach(Item item in items)
-                phones.Add(new Phone(item));
+                phones.Add(new Phone(item.Brand, item.Model, item.Date, item.Price));
 
             // Create a PhoneCollection from passed items.
             PhoneCollection = new PhoneCollection(phones);

@@ -1,4 +1,5 @@
 ﻿using Prediction.Models.Enums;
+using Prediction.Models.Time_Series_Forecasting.Cleaning;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,8 @@ namespace Prediction.Models.Time_Series_Forecasting.Business_Logic
     {
         public static void Calculate(PhoneCollection phoneCollection, Timeframe timeframe)
         {
+            PreprocessFillMissingItems(phoneCollection);
+
             GenerateMovingAverage(phoneCollection, timeframe);
             GenerateCenteredMovingAverage(phoneCollection, timeframe);
             GenerateSeasonalIrregularity(phoneCollection);
@@ -17,6 +20,11 @@ namespace Prediction.Models.Time_Series_Forecasting.Business_Logic
             GenerateDeseasonalizedValues(phoneCollection);
             GenerateTrend(phoneCollection);
             GenerateForecast(phoneCollection);
+        }
+
+        private static void PreprocessFillMissingItems(PhoneCollection phoneCollection)
+        {
+            phoneCollection.Items = DataValidity.FillGaps(phoneCollection);
         }
 
         private static void GenerateMovingAverage(PhoneCollection phoneCollection, Timeframe timeframe)

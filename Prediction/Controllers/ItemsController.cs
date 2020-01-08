@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Prediction.Models;
 using Prediction.Models.Enums;
 using Prediction.Models.Time_Series_Forecasting;
+using Prediction.Models.Time_Series_Forecasting.Cleaning;
 
 namespace Prediction.Controllers
 {
@@ -26,7 +27,6 @@ namespace Prediction.Controllers
             List<Item> items = _context.Items.ToList();
             TimeSeriesPrediction forecast = new TimeSeriesPrediction(items, Timeframe.Monthly);
             forecast.GenerateFutureForecast(forecast.PhoneCollection);
-            
             ViewData["Phones"] = forecast.Print();
             return View(await _context.Items.ToListAsync());
         }

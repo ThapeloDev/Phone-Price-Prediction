@@ -15,7 +15,7 @@ namespace Prediction.Models.Time_Series_Forecasting.Business_Logic
                 double sum = 0.0;
 
                 for (int i = (index - 2); i < (index - 2 + (int)timeframe); i++)
-                    sum += items.Items[i].Item.Price;
+                    sum += items.Items[i].Price.Value;
 
                 return sum / (int)timeframe;
             }
