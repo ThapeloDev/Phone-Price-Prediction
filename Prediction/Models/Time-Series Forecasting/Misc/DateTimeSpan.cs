@@ -89,7 +89,6 @@ namespace Prediction.Models.Time_Series_Forecasting.Cleaning
                         break;
                 }
             }
-
             return span;
         }
     }

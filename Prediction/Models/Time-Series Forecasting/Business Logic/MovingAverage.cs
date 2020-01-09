@@ -8,21 +8,22 @@ namespace Prediction.Models.Time_Series_Forecasting.Business_Logic
 {
     internal class MovingAverage
     {
-        public static double? Calculate(int index, PhoneCollection items, Timeframe timeframe = Timeframe.Quarterly)
+        public static List<Phone> Calculate(PhoneCollection collection, Timeframe timeframe = Timeframe.Quarterly)
         {
-            if (items.Items.ElementAtOrDefault(index - 2) != null && items.Items.ElementAtOrDefault(index - 3 + (int)timeframe) != null)
+            for(int index = 0; index < collection.Phones.Count(); index ++)
             {
-                double sum = 0.0;
+                if (collection.Phones.ElementAtOrDefault(index - 2) != null && collection.Phones.ElementAtOrDefault(index - 3 + (int)timeframe) != null)
+                {
+                    double sum = 0.0;
 
-                for (int i = (index - 2); i < (index - 2 + (int)timeframe); i++)
-                    sum += items.Items[i].Price.Value;
+                    for (int i = (index - 2); i < (index - 2 + (int)timeframe); i++)
+                        sum += collection.Phones[i].Price.Value;
 
-                return sum / (int)timeframe;
+                    collection.Phones[index].MovingAverage = sum / (int)timeframe;
+                }
             }
-            else
-            {
-                return null;
-            }
+
+            return collection.Phones;
         }
     }
 }

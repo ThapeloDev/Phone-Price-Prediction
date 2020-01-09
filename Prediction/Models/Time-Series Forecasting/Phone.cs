@@ -11,7 +11,7 @@ namespace Prediction.Models.Time_Series_Forecasting
     {
         public Phone(Brand brand,
                      string model,
-                     DateTime? date,
+                     DateTime date,
                      double? price = null,
                      double? movingAverage = null,
                      double? centeredMovingAverage = null,
@@ -34,19 +34,10 @@ namespace Prediction.Models.Time_Series_Forecasting
             this.Forecast = forecast;
         }
 
-        public Phone(Item item)
-        {
-            this.Item = item;
-            this.Brand = Item.Brand;
-            this.Model = Item.Model;
-            this.Date = Item.Date;
-            this.Price = Item.Price;
-        }
-
-        private Item item = null;
+        #region Attributes w/ Setters + Getters
         private Brand brand;
         private string model;
-        private DateTime? date;
+        private DateTime date;
         private double? price;
         private double? movingAverage;
         private double? centeredMovingAverage;
@@ -55,12 +46,10 @@ namespace Prediction.Models.Time_Series_Forecasting
         private double? deseasonalized;
         private double? trend;
         private double? forecast;
-
-        public Item Item { get => item; set => item = value; }
-        public DateTime? Date { get => date; set => date = value; }
-        public double? Price { get => price; set => price = value; }
         public Brand Brand { get => brand; set => brand = value; }
         public string Model { get => model; set => model = value; }
+        public DateTime Date { get => date; set => date = value; }
+        public double? Price { get => price; set => price = value; }
         public double? MovingAverage { get => movingAverage; set => movingAverage = value; }
         public double? CenteredMovingAverage { get => centeredMovingAverage; set => centeredMovingAverage = value; }
         public double? SeasonalIrregularity { get => seasonalIrregularity; set => seasonalIrregularity = value; }
@@ -68,6 +57,7 @@ namespace Prediction.Models.Time_Series_Forecasting
         public double? Deseasonalized { get => deseasonalized; set => deseasonalized = value; }
         public double? Trend { get => trend; set => trend = value; }
         public double? Forecast { get => forecast; set => forecast = value; }
+        #endregion
 
         public IEnumerator<Phone> GetEnumerator()
         {

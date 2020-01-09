@@ -7,16 +7,17 @@ namespace Prediction.Models.Time_Series_Forecasting.Business_Logic
 {
     internal class SeasonalIrregularity
     {
-        public static double? Calculate(int index, PhoneCollection items)
+        public static List<Phone> Calculate(PhoneCollection collection)
         {
-            if (items.Items[index].CenteredMovingAverage != null && items.Items[index].CenteredMovingAverage.GetValueOrDefault() != 0)
+            for (int index = 0; index < collection.Phones.Count(); index++)
             {
-                return (items.Items[index].Price / items.Items[index].CenteredMovingAverage);
+                if (collection.Phones[index].CenteredMovingAverage != null && collection.Phones[index].CenteredMovingAverage.GetValueOrDefault() != 0)
+                {
+                    collection.Phones[index].SeasonalIrregularity = (collection.Phones[index].Price / collection.Phones[index].CenteredMovingAverage);
+                }
             }
-            else
-            {
-                return null;
-            }
+
+            return collection.Phones;
         }
     }
 }

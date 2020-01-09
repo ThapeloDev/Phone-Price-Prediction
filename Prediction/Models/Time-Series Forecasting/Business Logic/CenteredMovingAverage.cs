@@ -8,16 +8,17 @@ namespace Prediction.Models.Time_Series_Forecasting.Business_Logic
 {
     internal class CenteredMovingAverage
     {
-        public static double? Calculate(int index, PhoneCollection items, Timeframe timeframe = Timeframe.Quarterly)
+        public static List<Phone> Calculate(PhoneCollection collection, Timeframe timeframe = Timeframe.Quarterly)
         {
-            if (items.Items.ElementAtOrDefault(index).MovingAverage != null && items.Items.ElementAtOrDefault(index + 1).MovingAverage != null)
+            for(int index = 0; index < collection.Phones.Count(); index++)
             {
-                return (items.Items[index].MovingAverage + items.Items[index + 1].MovingAverage) / 2;
+                if (collection.Phones.ElementAtOrDefault(index).MovingAverage != null && collection.Phones.ElementAtOrDefault(index + 1).MovingAverage != null)
+                {
+                    collection.Phones[index].CenteredMovingAverage = (collection.Phones[index].MovingAverage + collection.Phones[index + 1].MovingAverage) / 2;
+                }
             }
-            else
-            {
-                return null;
-            }
+
+            return collection.Phones;
         }
     }
 }

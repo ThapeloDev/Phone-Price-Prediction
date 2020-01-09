@@ -19,27 +19,11 @@ namespace Prediction.Models
 
             // Create a PhoneCollection from passed items.
             PhoneCollection = new PhoneCollection(phones);
-
-            if (checkForBrandConsistency(PhoneCollection) && checkForModelConsistency(PhoneCollection))
-            {
-                /*
-                 * Calculate:
-                 *    - Moving Average
-                 *    - Centered Moving Average
-                 *    - Seasonal Irregularity
-                 *    - Seasonality
-                 *    - Deseasonalized Values
-                 *    - Trend
-                 *    - Forecast
-                 */
-                TimeSeries.Calculate(PhoneCollection, timeframe);
-            }
+            Algorithm.Calculate(PhoneCollection, timeframe);
         }
 
         private PhoneCollection phoneCollection;
-
         public PhoneCollection PhoneCollection { get => phoneCollection; set => phoneCollection = value; }
-
 
         public void GenerateFutureForecast(PhoneCollection phoneCollection, 
                                            int months = 12,
@@ -64,64 +48,23 @@ namespace Prediction.Models
             PhoneCollection.AddItem(Brand.iPhone, "8", new DateTime(2005, 12, 1));
 
 
-            for (int index = 0; index < PhoneCollection.Items.Count; index++)
+            for (int index = 0; index < PhoneCollection.Phones.Count; index++)
             {
-                if (PhoneCollection.Items[index].Seasonality == null)
+                if (PhoneCollection.Phones[index].Seasonality == null)
                 {
-                    PhoneCollection.Items[index].Seasonality = Seasonality.Calculate(index, PhoneCollection, timeframe);
-                    PhoneCollection.Items[index].Trend = Trend.Calculate(index, PhoneCollection);
-                    PhoneCollection.Items[index].Forecast = Forecast.Calculate(index, PhoneCollection);
+                    PhoneCollection.Phones[index].Seasonality = Seasonality.Calculate(index, PhoneCollection, timeframe);
+                    PhoneCollection.Phones[index].Trend = Trend.Calculate(index, PhoneCollection);
+                    PhoneCollection.Phones[index].Forecast = Forecast.Calculate(index, PhoneCollection);
                 }
             }
         }
         
-        private bool checkForBrandConsistency(PhoneCollection phoneCollection)
-        {
-            Brand brand;
-
-            // Check if collection contains items
-            if (phoneCollection.Items.ElementAtOrDefault(0) != null)
-                // Get brand for first item in PhoneCollection.
-                brand = phoneCollection.Items[0].Brand;
-            else
-                throw new Exception("The passed collection contains no items.");
-
-            foreach (Phone phone in phoneCollection.Items)
-            {
-                // Check if all phones contain the same brand
-                if (phone.Brand != brand)
-                    return false;
-            }
-
-            return true;
-        }
-
-        private bool checkForModelConsistency(PhoneCollection phoneCollection)
-        {
-            string model;
-
-            // Check if collection contains items
-            if (phoneCollection.Items.ElementAtOrDefault(0) != null)
-                // Get brand for first item in PhoneCollection.
-                model = phoneCollection.Items[0].Model;
-            else
-                throw new Exception("The passed collection contains no items.");
-
-            foreach (Phone phone in phoneCollection.Items)
-            {
-                // Check if all phones contain the same model
-                if (phone.Model != model)
-                    return false;
-            }
-
-            return true;
-        }
 
         public string Print()
         {
             string output = "";
             int index = 0;
-            foreach (Phone p in PhoneCollection.Items)
+            foreach (Phone p in PhoneCollection.Phones)
             {
                 index++;
                 if (p.Forecast != null)
