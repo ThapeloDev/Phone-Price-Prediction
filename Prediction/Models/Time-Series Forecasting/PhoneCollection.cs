@@ -57,7 +57,43 @@ namespace Prediction.Models.Time_Series_Forecasting
         }
         #endregion
 
-        // TODO: SORTING
+        #region Sorting
+        public List<Phone> Sort(Enums.Attribute sort, Direction? direction = null)
+        {
+            List<Phone> temp = new List<Phone>();
+            
+            if (sort == Enums.Attribute.Brand)
+            {
+                temp = phones.OrderBy(i => i.Brand).ToList();
+            }
+            else if (sort == Enums.Attribute.Date)
+            {
+                temp = phones.OrderBy(i => i.Date).ToList();
+            }
+            else if (sort == Enums.Attribute.Forecast)
+            {
+                temp = phones.OrderBy(i => i.Forecast).ToList();
+            }
+            else if (sort == Enums.Attribute.Price)
+            {
+                temp = phones.OrderBy(i => i.Price).ToList();
+            }
+
+            if (direction.HasValue)
+            {
+                if (direction == Enums.Direction.Descending)
+                {
+                    temp.OrderByDescending(i => i);
+                }
+                else if (direction == Enums.Direction.Ascending)
+                {
+                    temp.OrderBy(i => i);
+                }
+            }
+            
+            return temp;
+        }
+        #endregion
 
         public IEnumerator<PhoneCollection> GetEnumerator()
         {

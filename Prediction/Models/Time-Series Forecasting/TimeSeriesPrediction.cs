@@ -25,29 +25,19 @@ namespace Prediction.Models
         private PhoneCollection phoneCollection;
         public PhoneCollection PhoneCollection { get => phoneCollection; set => phoneCollection = value; }
 
-        public void GenerateFutureForecast(PhoneCollection phoneCollection, 
-                                           int months = 12,
-                                           Timeframe timeframe = Timeframe.Monthly)
+        public void GenerateFutureForecast(int months = 12, Timeframe timeframe = Timeframe.Monthly)
         {
-            if (phoneCollection is null)
+            // Generates required amount of items
+            for(int i = 0; i < months; i++)
             {
-                throw new ArgumentNullException(nameof(phoneCollection));
+                // Note: Data has already been pre-processed, no need for additional checks.
+                // Same brand, same model, increased date by one month from latest date
+                phoneCollection.AddItem(PhoneCollection.Phones[0].Brand,
+                                        PhoneCollection.Phones[0].Model,
+                                        PhoneCollection.Phones[PhoneCollection.Phones.Count() - 1].Date.AddMonths(1));
             }
 
-            PhoneCollection.AddItem(Brand.iPhone, "8", new DateTime(2005, 1, 1));
-            PhoneCollection.AddItem(Brand.iPhone, "8", new DateTime(2005, 2, 1));
-            PhoneCollection.AddItem(Brand.iPhone, "8", new DateTime(2005, 3, 1));
-            PhoneCollection.AddItem(Brand.iPhone, "8", new DateTime(2005, 4, 1));
-            PhoneCollection.AddItem(Brand.iPhone, "8", new DateTime(2005, 5, 1));
-            PhoneCollection.AddItem(Brand.iPhone, "8", new DateTime(2005, 6, 1));
-            PhoneCollection.AddItem(Brand.iPhone, "8", new DateTime(2005, 7, 1));
-            PhoneCollection.AddItem(Brand.iPhone, "8", new DateTime(2005, 8, 1));
-            PhoneCollection.AddItem(Brand.iPhone, "8", new DateTime(2005, 9, 1));
-            PhoneCollection.AddItem(Brand.iPhone, "8", new DateTime(2005, 10, 1));
-            PhoneCollection.AddItem(Brand.iPhone, "8", new DateTime(2005, 11, 1));
-            PhoneCollection.AddItem(Brand.iPhone, "8", new DateTime(2005, 12, 1));
-
-
+            // Calculates expected forecast for all items.
             for (int index = 0; index < PhoneCollection.Phones.Count; index++)
             {
                 if (PhoneCollection.Phones[index].Seasonality == null)

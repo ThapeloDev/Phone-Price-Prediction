@@ -26,7 +26,7 @@ namespace Prediction.Controllers
         {
             List<Item> items = _context.Items.ToList();
             TimeSeriesPrediction forecast = new TimeSeriesPrediction(items, Timeframe.Monthly);
-            forecast.GenerateFutureForecast(forecast.PhoneCollection);
+            forecast.GenerateFutureForecast(12);
             ViewData["Phones"] = forecast.Print();
             return View(await _context.Items.ToListAsync());
         }
