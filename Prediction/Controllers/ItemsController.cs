@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Prediction.Models;
+using Prediction.Models.Chart;
 using Prediction.Models.Enums;
 using Prediction.Models.Time_Series_Forecasting;
 using Prediction.Models.Time_Series_Forecasting.Cleaning;
@@ -19,6 +20,22 @@ namespace Prediction.Controllers
         public ItemsController(ItemContext context)
         {
             _context = context;
+        }
+        public async Task<IActionResult> Line()
+        {
+            var lstModel = new List<SimpleReportViewModel>();
+            List<Item> items = _context.Items.ToList();
+            TimeSeriesPrediction forecast = new TimeSeriesPrediction(items, Timeframe.Monthly);
+            forecast.GenerateFutureForecast(12);
+            foreach (Phone p in forecast.PhoneCollection.Phones)
+            {
+                lstModel.Add(new SimpleReportViewModel
+                {
+                    DimensionOne = p.Date.ToString(),
+                    Quantity = p.Forecast.Value
+                });
+            }
+            return View(lstModel);
         }
 
         // GET: Items
