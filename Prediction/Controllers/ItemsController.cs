@@ -31,17 +31,40 @@ namespace Prediction.Controllers
             TimeSeriesPrediction forecast = new TimeSeriesPrediction(items, Timeframe.Monthly);
             forecast.GenerateFutureForecast(12);
 
-            var lstModel = new List<SimpleReportViewModel>();
+            var lstModel = new List<ChartViewModel>();
+            var lstModel2 = new List<ChartViewModel>();
+            var lstModel3 = new List<ChartViewModel>();
             foreach(Phone p in forecast.PhoneCollection.Phones)
             {
-                lstModel.Add(new SimpleReportViewModel
+                lstModel.Add(new ChartViewModel
                 {
-                    DimensionOne = p.Date.ToString(),
-                    Quantity = p.Forecast.Value
-                });;
+                    Date = p.Date.ToString(),
+                    Price = p.Forecast.Value
+                });
+                lstModel2.Add(new ChartViewModel
+                {
+                    Date = p.Date.ToString(),
+                    Price = p.Forecast.Value + 1
+                });
+                lstModel3.Add(new ChartViewModel
+                {
+                    Date = p.Date.ToString(),
+                    Price = p.Forecast.Value + 2
+                });
             }
 
-            return View(lstModel);
+            List<List<ChartViewModel>> list = new List<List<ChartViewModel>>();
+            list.Add(lstModel);
+            list.Add(lstModel2);
+            list.Add(lstModel3);
+
+            var stackedview = new StackedViewModel()
+            {
+                StackedDimensionOne = "ASD",
+                LstData = list
+            };
+
+            return View(list);
         }
 
         // GET: Items

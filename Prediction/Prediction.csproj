@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
+    <Folder Include="Models\Chart\Business Logic\" />
     <Folder Include="Models\Suggestion Algorithm\" />
     <Folder Include="Pages\" />
     <Folder Include="wwwroot\css\" />

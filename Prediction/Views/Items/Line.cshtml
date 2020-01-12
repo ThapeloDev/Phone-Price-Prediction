@@ -1,8 +1,21 @@
-﻿@model List<Prediction.Models.Chart.SimpleReportViewModel>  
+﻿@model List<List<Prediction.Models.Chart.ChartViewModel>>  
 @{  
-    var XLabels = Newtonsoft.Json.JsonConvert.SerializeObject( Model.Select( x => x.DimensionOne ).ToList() );  
-    var YValues = Newtonsoft.Json.JsonConvert.SerializeObject( Model.Select( x => x.Quantity ).ToList() );  
-    ViewData["Title"] = "Line Chart";  
+    @using Prediction.Models.Chart;
+    int brandCount = Model.Count();
+
+    var dates = Newtonsoft.Json.JsonConvert.SerializeObject(Model[0].Select(x => x.Date).ToList() );
+    var model1 = Newtonsoft.Json.JsonConvert.SerializeObject(Model[0].Select(x => x.Price).ToList() );
+    var model2 = Newtonsoft.Json.JsonConvert.SerializeObject(Model[1].Select(x => x.Price).ToList() );
+    var model3 = Newtonsoft.Json.JsonConvert.SerializeObject(Model[2].Select(x => x.Price).ToList() );
+
+    System.Diagnostics.Debug.WriteLine(brandCount);
+    System.Diagnostics.Debug.WriteLine(dates);
+    System.Diagnostics.Debug.WriteLine(model1);
+    System.Diagnostics.Debug.WriteLine(model2);
+    System.Diagnostics.Debug.WriteLine(model3);
+
+    string asd = "rgba(255, 0, 0)";
+    ViewData["Title"] = "Line Chart";
 }  
   
 <!DOCTYPE html>  
@@ -25,76 +38,63 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>  
   
 <script type="text/javascript">  
-        $(function () {  
-    var chartName = "chart";  
+    $(function () {  
+        var chartName = "chart";  
         var ctx = document.getElementById(chartName).getContext('2d');  
         var data = {  
-                labels: @Html.Raw(XLabels),  
-                datasets: [{  
-                    label: "Countries Chart",  
-                    backgroundColor: [  
-                        'rgba(255, 99, 132, 0.2)',  
-                        'rgba(54, 162, 235, 0.2)',  
-                        'rgba(255, 206, 86, 0.2)',  
-                        'rgba(75, 192, 192, 0.2)',  
-                        'rgba(153, 102, 255, 0.2)',  
-                        'rgba(255, 159, 64, 0.2)',  
-                        'rgba(255, 0, 0)',  
-                        'rgba(0, 255, 0)',  
-                        'rgba(0, 0, 255)',  
-                        'rgba(192, 192, 192)',  
-                        'rgba(255, 255, 0)',  
-                        'rgba(255, 0, 255)'  
-                    ],  
-                    borderColor: [  
-                        'rgba(255,99,132,1)',  
-                        'rgba(54, 162, 235, 1)',  
-                        'rgba(255, 206, 86, 1)',  
-                        'rgba(75, 192, 192, 1)',  
-                        'rgba(153, 102, 255, 1)',  
-                        'rgba(255, 159, 64, 1)',  
-                        'rgba(255, 0, 0)',  
-                        'rgba(0, 255, 0)',  
-                        'rgba(0, 0, 255)',  
-                        'rgba(192, 192, 192)',  
-                        'rgba(255, 255, 0)',  
-                        'rgba(255, 0, 255)'  
-                    ],  
-                    borderWidth: 1,  
-                    data: @Html.Raw(YValues)  
-    }]  
-            };  
+            labels: @Html.Raw(dates),  
+            datasets: [
+            @for (int i = 0; i < 3; i++)
+            {
+                <text>
+                {
+                    label: "iPhone",
+                    backgroundColor: [
+                        'rgba(0, 255, 0, 0.1)'
+                    ],
+                    borderColor: [
+                        '@(asd)'
+                    ],
+                    fill: false,
+                    borderWidth: 1,
+                    data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model[i].Select(x => x.Price).ToList() ))
+                },
+                </text>
+            }]  
+        };  
   
-var options = {  
-                maintainAspectRatio: false,  
-                scales: {  
-                    yAxes: [{  
-                        ticks: {  
-                            min: 0,  
-                            beginAtZero: true  
-                        },  
-                        gridLines: {  
-                            display: true,  
-                            color: "rgba(255,99,164,0.2)"  
-                        }  
-}],  
-                    xAxes: [{  
-                        ticks: {  
-                            min: 0,  
-                            beginAtZero: true  
-                        },  
-                        gridLines: {  
-                            display: false  
-                        }  
-                    }]  
-                }  
-            };  
+        var options = {  
+            maintainAspectRatio: false,
+            responsive: true,
+            stacked: false,
+            hoverMode: 'index',
+            scales: {  
+               /* yAxes: [{  
+                    ticks: {  
+                        min: 0,  
+                        beginAtZero: true  
+                    },  
+                    gridLines: {  
+                        display: true,  
+                        color: "rgba(255,99,164,0.2)"  
+                    }  
+                }],  
+                xAxes: [{  
+                    ticks: {  
+                        min: 0,  
+                        beginAtZero: true  
+                    },  
+                    gridLines: {  
+                    display: false  
+                    }  
+                }]  */
+            }  
+        };  
   
-       var myChart = new  Chart(ctx, {  
-                options: options,  
-                data: data,  
-                type:'line'  
-  
-            });  
+        var myChart = new  Chart(ctx, {  
+            options: options,  
+            data: data,  
+            type:'line'  
         });  
+    });  
 </script>  

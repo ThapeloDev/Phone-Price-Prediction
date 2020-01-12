@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Prediction.Models.Chart
 {
-    public class SimpleReportViewModel : IEnumerable
+    public class ChartViewModel : IEnumerable
     {
-        public string DimensionOne { get; set; }
-        public double Quantity { get; set; }
+        public string Date { get; set; }
+        public double Price { get; set; }
 
         public IEnumerator GetEnumerator()
         {
