@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Prediction.Models.Chart
 {
-    public class ChartViewModel : IEnumerable
+    public class ChartTransactionModel : IEnumerable
     {
         public string Date { get; set; }
         public double Price { get; set; }

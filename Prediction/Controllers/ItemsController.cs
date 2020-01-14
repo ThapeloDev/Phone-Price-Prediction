@@ -13,6 +13,8 @@ using Prediction.Models.Time_Series_Forecasting.Cleaning;
 using ChartJSCore.Models;
 using ChartJSCore.Helpers;
 using ChartJSCore.Plugins;
+using System.Drawing;
+using Prediction.Models.Chart.Misc;
 
 namespace Prediction.Controllers
 {
@@ -31,37 +33,58 @@ namespace Prediction.Controllers
             TimeSeriesPrediction forecast = new TimeSeriesPrediction(items, Timeframe.Monthly);
             forecast.GenerateFutureForecast(12);
 
-            var lstModel = new List<ChartViewModel>();
-            var lstModel2 = new List<ChartViewModel>();
-            var lstModel3 = new List<ChartViewModel>();
+            var lstModel = new List<ChartTransactionModel>();
+            var lstModel2 = new List<ChartTransactionModel>();
+            var lstModel3 = new List<ChartTransactionModel>();
             foreach(Phone p in forecast.PhoneCollection.Phones)
             {
-                lstModel.Add(new ChartViewModel
+                lstModel.Add(new ChartTransactionModel
                 {
                     Date = p.Date.ToString(),
                     Price = p.Forecast.Value
                 });
-                lstModel2.Add(new ChartViewModel
+                lstModel2.Add(new ChartTransactionModel
                 {
                     Date = p.Date.ToString(),
                     Price = p.Forecast.Value + 1
                 });
-                lstModel3.Add(new ChartViewModel
+                lstModel3.Add(new ChartTransactionModel
                 {
                     Date = p.Date.ToString(),
                     Price = p.Forecast.Value + 2
                 });
             }
 
-            List<List<ChartViewModel>> list = new List<List<ChartViewModel>>();
-            list.Add(lstModel);
-            list.Add(lstModel2);
-            list.Add(lstModel3);
 
-            var stackedview = new StackedViewModel()
+            List<ChartItemModel> list = new List<ChartItemModel>
             {
-                StackedDimensionOne = "ASD",
-                LstData = list
+                new ChartItemModel
+                {
+                    Label = "One",
+                    BackgroundColor = new RGBAColor(255, 0, 0),
+                    BorderColor = new RGBAColor(255, 0, 0),
+                    Fill = false,
+                    BorderWidth = 1,
+                    LstData = lstModel
+                },
+                new ChartItemModel
+                {
+                    Label = "Two",
+                    BackgroundColor = new RGBAColor(0, 255, 0),
+                    BorderColor = new RGBAColor(0, 255, 0),
+                    Fill = false,
+                    BorderWidth = 1,
+                    LstData = lstModel2
+                },
+                new ChartItemModel
+                {
+                    Label = "Three",
+                    BackgroundColor = new RGBAColor(0, 0, 255),
+                    BorderColor = new RGBAColor(0, 0, 255),
+                    Fill = false,
+                    BorderWidth = 1,
+                    LstData = lstModel3
+                }
             };
 
             return View(list);
