@@ -15,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Prediction.Models;
 using Prediction.Models.Time_Series_Forecasting;
+using Prediction.Models.Hardware;
 
 namespace Prediction
 {
@@ -43,6 +44,9 @@ namespace Prediction
             services.AddDbContext<ItemContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("ItemsConnection")));
+            services.AddDbContext<PhonePropertiesContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("HardwareConnection")));
 
 
             services.AddIdentity<ApplicationUser, ApplicationRole>(options =>

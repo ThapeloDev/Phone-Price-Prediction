@@ -1,0 +1,179 @@
+﻿@model IEnumerable<Prediction.Models.Hardware.PhoneProperties>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Brand)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Storage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cpu)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CpuType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CpuSpeed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RAM)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HasGPU)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HeadphoneOutput)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Capable5g)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FrontCameraMegapixel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BackCameraMegapixel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BatteryCapacity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExchangableBattery)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Depth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Height)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Width)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Weight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WirelessCharging)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WirelessStandard)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DualSim)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SimCard)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FastCharging)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WaterResistance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReleaseYear)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Brand)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Storage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cpu)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CpuType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CpuSpeed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RAM)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HasGPU)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HeadphoneOutput)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Capable5g)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FrontCameraMegapixel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BackCameraMegapixel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BatteryCapacity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExchangableBattery)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Depth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Height)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Width)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Weight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WirelessCharging)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WirelessStandard)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DualSim)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SimCard)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FastCharging)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WaterResistance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReleaseYear)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ConfigId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ConfigId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ConfigId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
