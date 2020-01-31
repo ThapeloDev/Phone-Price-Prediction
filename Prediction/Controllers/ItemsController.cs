@@ -15,21 +15,57 @@ using ChartJSCore.Helpers;
 using ChartJSCore.Plugins;
 using System.Drawing;
 using Prediction.Models.Chart.Misc;
+using Prediction.Models.Hardware;
+using Prediction.Models.ChartManual;
+using Newtonsoft.Json;
 
 namespace Prediction.Controllers
 {
     public class ItemsController : Controller
     {
-        private readonly ItemContext _context;
+        private readonly ItemContext _phoneContext;
+        private readonly PhonePropertiesContext _hardwareContext;
 
-        public ItemsController(ItemContext context)
+        public ItemsController(ItemContext phoneContext, PhonePropertiesContext hardwareContext)
         {
-            _context = context;
+            _phoneContext = phoneContext;
+            _hardwareContext = hardwareContext;
+        }
+
+        public IActionResult Chart(List<int> selectedItems = null)
+        {
+            List<Item> phones = _phoneContext.Items.ToList();
+            List<PhoneProperties> phoneInfo = _hardwareContext.PhoneProperties.ToList();
+
+
+            if (selectedItems == null)
+            {
+                return View(new ManualChart(phoneInfo));
+            }
+            else
+            {
+                ManualChart existingModel = new ManualChart(phoneInfo, selectedItems);
+                return View(existingModel);
+            }
+        }
+
+        public IActionResult AddToChart(string currentItem, string selectedItems = null)
+        {
+            List<int> AllItems = new List<int>();
+            if(selectedItems != null)
+            {
+                var SelectedItems = JsonConvert.DeserializeObject<List<int>>(selectedItems);
+                AllItems.AddRange(SelectedItems);
+            }
+            int SelectedId = JsonConvert.DeserializeObject<int>(currentItem);
+            AllItems.Add(SelectedId);
+
+            return RedirectToAction("Chart", "Items", new { selectedItems = AllItems });
         }
 
         public IActionResult Line()
         {
-            List<Item> items = _context.Items.ToList();
+            List<Item> items = _phoneContext.Items.ToList();
             TimeSeriesPrediction forecast = new TimeSeriesPrediction(items, Timeframe.Monthly);
             forecast.GenerateFutureForecast(12);
 
@@ -93,11 +129,11 @@ namespace Prediction.Controllers
         // GET: Items
         public async Task<IActionResult> Index()
         {
-            List<Item> items = _context.Items.ToList();
+            List<Item> items = _phoneContext.Items.ToList();
             TimeSeriesPrediction forecast = new TimeSeriesPrediction(items, Timeframe.Monthly);
             forecast.GenerateFutureForecast(12);
             ViewData["Phones"] = forecast.Print();
-            return View(await _context.Items.ToListAsync());
+            return View(await _phoneContext.Items.ToListAsync());
         }
 
         // GET: Items/Details/5
@@ -108,7 +144,7 @@ namespace Prediction.Controllers
                 return NotFound();
             }
 
-            var item = await _context.Items
+            var item = await _phoneContext.Items
                 .FirstOrDefaultAsync(m => m.ItemId == id);
             if (item == null)
             {
@@ -133,8 +169,8 @@ namespace Prediction.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(item);
-                await _context.SaveChangesAsync();
+                _phoneContext.Add(item);
+                await _phoneContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(item);
@@ -148,7 +184,7 @@ namespace Prediction.Controllers
                 return NotFound();
             }
 
-            var item = await _context.Items.FindAsync(id);
+            var item = await _phoneContext.Items.FindAsync(id);
             if (item == null)
             {
                 return NotFound();
@@ -172,8 +208,8 @@ namespace Prediction.Controllers
             {
                 try
                 {
-                    _context.Update(item);
-                    await _context.SaveChangesAsync();
+                    _phoneContext.Update(item);
+                    await _phoneContext.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -199,7 +235,7 @@ namespace Prediction.Controllers
                 return NotFound();
             }
 
-            var item = await _context.Items
+            var item = await _phoneContext.Items
                 .FirstOrDefaultAsync(m => m.ItemId == id);
             if (item == null)
             {
@@ -214,15 +250,15 @@ namespace Prediction.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var item = await _context.Items.FindAsync(id);
-            _context.Items.Remove(item);
-            await _context.SaveChangesAsync();
+            var item = await _phoneContext.Items.FindAsync(id);
+            _phoneContext.Items.Remove(item);
+            await _phoneContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ItemExists(int id)
         {
-            return _context.Items.Any(e => e.ItemId == id);
+            return _phoneContext.Items.Any(e => e.ItemId == id);
         }
     }
 }

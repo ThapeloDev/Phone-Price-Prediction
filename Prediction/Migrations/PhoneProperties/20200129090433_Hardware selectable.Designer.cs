@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Prediction.Models.Hardware;
 
 namespace Prediction.Migrations.PhoneProperties
 {
     [DbContext(typeof(PhonePropertiesContext))]
-    partial class PhonePropertiesContextModelSnapshot : ModelSnapshot
+    [Migration("20200129090433_Hardware selectable")]
+    partial class Hardwareselectable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -59,8 +59,10 @@ namespace Prediction.Models.Hardware
         public bool FastCharging { get; set; }
         public bool WaterResistance { get; set; }
 
-        
         // Release
         public int ReleaseYear { get; set; }
+
+        // User interaction
+        public bool isSelected { get; set; }
     }
 }
