@@ -1,0 +1,60 @@
+﻿@model Prediction.Models.ChartManual.ManualChart
+@{
+    var chartItems = Model.GenerateChart(Model.SelectedItems);
+}
+
+<p>@Model.SelectedItems.Count()</p>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<div class="box-body">
+    <div class="chart-container">
+        <canvas id="chart" style="width:100%; height:400px"></canvas>
+    </div>
+</div>
+
+<script type="text/javascript">
+@if(chartItems.Count() > 0)
+{
+    <text>
+        $(function () {
+            var chartName = "chart";
+            var ctx = document.getElementById(chartName).getContext('2d');
+
+            var data = {
+            labels: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(chartItems[0].LstData.Select(x => x.Date).ToList())),
+            datasets: [
+               @for (int i = 0; i < chartItems.Count(); i++)
+                {
+                <text>
+                {
+                    label: "@(chartItems[i].Label)",
+                    backgroundColor: ['rgba(@(chartItems[i].BackgroundColor.R.ToString()), @(chartItems[i].BackgroundColor.G.ToString()), @(chartItems[i].BackgroundColor.B.ToString()), 0.1)'],
+                    borderColor: ['rgba(@(chartItems[i].BorderColor.R.ToString()), @(chartItems[i].BorderColor.G.ToString()), @(chartItems[i].BackgroundColor.B.ToString()))'],
+                    fill: @(chartItems[i].Fill.ToString().ToLower()),
+                    borderWidth: @(chartItems[i].BorderWidth),
+                    data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(chartItems[i].LstData.Select(x => x.Price).ToList()))
+                },
+                </text>
+                }]
+            };
+
+            var options = {
+            maintainAspectRatio: false,
+            responsive: true,
+            stacked: false,
+            hoverMode: 'index',
+            };
+
+
+            var myChart = new  Chart(ctx, {
+                options: options,
+                data: data,
+                type:'line'
+            });
+        });
+    </text>
+}
+
+</script>  

@@ -40,11 +40,11 @@ namespace Prediction.Controllers
 
             if (selectedItems == null)
             {
-                return View(new ManualChart(phoneInfo));
+                return View(new ManualChart(phones ,phoneInfo));
             }
             else
             {
-                ManualChart existingModel = new ManualChart(phoneInfo, selectedItems);
+                ManualChart existingModel = new ManualChart(phones ,phoneInfo, selectedItems);
                 return View(existingModel);
             }
         }

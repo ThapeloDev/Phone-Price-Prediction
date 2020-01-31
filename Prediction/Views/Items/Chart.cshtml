@@ -17,21 +17,21 @@
     <form method="post">
         <table class="table table-borderless table-hover table-striped table-sm mb-0">
             <tbody>
-                @for (var i = 0; i < Model.PhoneInfo.Count(); i++)
+                @for (var i = 0; i < Model.Hardware.Count(); i++)
                 {
                     <tr>
                         <td>
-                            <input type="hidden" asp-for="PhoneInfo[i].ConfigId" />
-                            @Model.PhoneInfo[i].ConfigId
+                            <input type="hidden" asp-for="Hardware[i].ConfigId" />
+                            @Model.Hardware[i].ConfigId
                         </td>
                         <td>
-                            @Model.PhoneInfo[i].Brand
+                            @Model.Hardware[i].Brand
                         </td>
                         <td>
-                            @Model.PhoneInfo[i].Model
+                            @Model.Hardware[i].Model
                         </td>
                         <td>
-                            <a asp-action="AddToChart" asp-route-selectedItems="@JsonConvert.SerializeObject(Model.SelectedItems)" asp-route-currentItem="@JsonConvert.SerializeObject(Model.PhoneInfo[i].ConfigId)">Select</a>
+                            <a asp-action="AddToChart" asp-route-selectedItems="@JsonConvert.SerializeObject(Model.SelectedItems)" asp-route-currentItem="@JsonConvert.SerializeObject(Model.Hardware[i].ConfigId)">Select</a>
                         </td>
                     </tr>
                 }
@@ -41,7 +41,7 @@
 </div>
 
 <div class="form-group">
-    @Html.Partial("_selectedItems", Model)
+    @Html.Partial("ChartPartialView/_selectedItems", Model)
 </div>
 
 <style>
