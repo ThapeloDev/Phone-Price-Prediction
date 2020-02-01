@@ -63,67 +63,20 @@ namespace Prediction.Controllers
             return RedirectToAction("Chart", "Items", new { selectedItems = AllItems });
         }
 
-        public IActionResult Line()
+        public IActionResult RemoveFromChart(string currentItem, string selectedItems)
         {
-            List<Item> items = _phoneContext.Items.ToList();
-            TimeSeriesPrediction forecast = new TimeSeriesPrediction(items, Timeframe.Monthly);
-            forecast.GenerateFutureForecast(12);
+            List<int> AllItems = new List<int>();
 
-            var lstModel = new List<ChartTransactionModel>();
-            var lstModel2 = new List<ChartTransactionModel>();
-            var lstModel3 = new List<ChartTransactionModel>();
-            foreach(Phone p in forecast.PhoneCollection.Phones)
+            var SelectedItems = JsonConvert.DeserializeObject<List<int>>(selectedItems);
+            AllItems.AddRange(SelectedItems);
+
+            int SelectedId = JsonConvert.DeserializeObject<int>(currentItem);
+            if (AllItems.Contains(SelectedId))
             {
-                lstModel.Add(new ChartTransactionModel
-                {
-                    Date = p.Date.ToString(),
-                    Price = p.Forecast.Value
-                });
-                lstModel2.Add(new ChartTransactionModel
-                {
-                    Date = p.Date.ToString(),
-                    Price = p.Forecast.Value + 1
-                });
-                lstModel3.Add(new ChartTransactionModel
-                {
-                    Date = p.Date.ToString(),
-                    Price = p.Forecast.Value + 2
-                });
+                AllItems.RemoveAll(x => x == SelectedId);
             }
 
-
-            List<ChartItemModel> list = new List<ChartItemModel>
-            {
-                new ChartItemModel
-                {
-                    Label = "One",
-                    BackgroundColor = new RGBAColor(255, 0, 0),
-                    BorderColor = new RGBAColor(255, 0, 0),
-                    Fill = false,
-                    BorderWidth = 1,
-                    LstData = lstModel
-                },
-                new ChartItemModel
-                {
-                    Label = "Two",
-                    BackgroundColor = new RGBAColor(0, 255, 0),
-                    BorderColor = new RGBAColor(0, 255, 0),
-                    Fill = false,
-                    BorderWidth = 1,
-                    LstData = lstModel2
-                },
-                new ChartItemModel
-                {
-                    Label = "Three",
-                    BackgroundColor = new RGBAColor(0, 0, 255),
-                    BorderColor = new RGBAColor(0, 0, 255),
-                    Fill = false,
-                    BorderWidth = 1,
-                    LstData = lstModel3
-                }
-            };
-
-            return View(list);
+            return RedirectToAction("Chart", "Items", new { selectedItems = AllItems });
         }
 
         // GET: Items
@@ -132,7 +85,6 @@ namespace Prediction.Controllers
             List<Item> items = _phoneContext.Items.ToList();
             TimeSeriesPrediction forecast = new TimeSeriesPrediction(items, Timeframe.Monthly);
             forecast.GenerateFutureForecast(12);
-            ViewData["Phones"] = forecast.Print();
             return View(await _phoneContext.Items.ToListAsync());
         }
 

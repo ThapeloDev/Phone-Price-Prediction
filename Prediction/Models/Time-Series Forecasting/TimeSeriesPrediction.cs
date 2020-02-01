@@ -11,13 +11,23 @@ namespace Prediction.Models
 {
     public class TimeSeriesPrediction
     {
-        public TimeSeriesPrediction(List<Item> items, Timeframe timeframe)
+        public TimeSeriesPrediction(List<Item> items, Timeframe timeframe = Timeframe.Monthly)
         {
-            List<Phone> phones = new List<Phone>(); ;
+            List<Phone> phones = new List<Phone>();
             foreach(Item item in items)
                 phones.Add(new Phone(item.Brand, item.Model, item.Date, item.Price));
 
             // Create a PhoneCollection from passed items.
+            PhoneCollection = new PhoneCollection(phones);
+            Algorithm.Calculate(PhoneCollection, timeframe);
+        }
+
+        public TimeSeriesPrediction(List<Item> items, Brand brand, string model, Timeframe timeframe = Timeframe.Monthly)
+        {
+            List<Phone> phones = new List<Phone>();
+            foreach (Item item in items.Where(m => m.Brand == brand).Where(m => m.Model == model).ToList())
+                phones.Add(new Phone(item.Brand, item.Model, item.Date, item.Price));
+
             PhoneCollection = new PhoneCollection(phones);
             Algorithm.Calculate(PhoneCollection, timeframe);
         }
@@ -48,21 +58,6 @@ namespace Prediction.Models
                 }
             }
         }
-        
-
-        public string Print()
-        {
-            string output = "";
-            int index = 0;
-            foreach (Phone p in PhoneCollection.Phones)
-            {
-                index++;
-                if (p.Forecast != null)
-                {
-                    output += $"[{index}] {p.Forecast}";
-                }
-            }
-            return output;
-        }
+       
     }
 }

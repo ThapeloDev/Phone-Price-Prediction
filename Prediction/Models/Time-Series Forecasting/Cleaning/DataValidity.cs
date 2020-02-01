@@ -8,6 +8,15 @@ namespace Prediction.Models.Time_Series_Forecasting.Cleaning
     // The degree to which the measures conform to defined business rules or constraints
     internal class DataValidity
     {
+        public static List<Phone> RemoveSpaces(PhoneCollection collection)
+        {
+            foreach(Phone p in collection.Phones)
+            {
+                p.Model.Trim();
+            }
+
+            return collection.Phones;
+        }
         public static List<Phone> FillGaps(PhoneCollection collection)
         {
             // Finds the earliest date in the collection of phones

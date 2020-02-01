@@ -21,6 +21,7 @@ namespace Prediction.Models.Time_Series_Forecasting.Business_Logic
             //NOTE: Order is important
             collection.Phones = DataDuplication.RemoveDuplicates(collection);
             collection.Phones = DataValidity.FillGaps(collection);
+            collection.Phones = DataValidity.RemoveSpaces(collection);
         }
 
         private static void RunAlgorithm(PhoneCollection collection, Timeframe timeframe)

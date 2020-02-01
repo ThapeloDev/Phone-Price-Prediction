@@ -1,12 +1,17 @@
 ﻿@model Prediction.Models.ChartManual.ManualChart
 @{
-    var chartItems = Model.GenerateChart(Model.SelectedItems);
+    @using Prediction.Models.Chart.Misc;
+    var chartItems = Model.DrawChart(Model.SelectedItems);
+
 }
-
-<p>@Model.SelectedItems.Count()</p>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<!-- Displays errors -->
+<div class="form-group">
+    @Html.Partial("ChartPartialView/_chartingErrors", Model)
+</div>
+
 
 <div class="box-body">
     <div class="chart-container">
@@ -15,6 +20,7 @@
 </div>
 
 <script type="text/javascript">
+// If the user has selected any items
 @if(chartItems.Count() > 0)
 {
     <text>
@@ -23,15 +29,17 @@
             var ctx = document.getElementById(chartName).getContext('2d');
 
             var data = {
+            // Labels displayed on the bottom of the chart
             labels: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(chartItems[0].LstData.Select(x => x.Date).ToList())),
             datasets: [
                @for (int i = 0; i < chartItems.Count(); i++)
                 {
+                // Plot the chart for each of the selected items
                 <text>
                 {
                     label: "@(chartItems[i].Label)",
-                    backgroundColor: ['rgba(@(chartItems[i].BackgroundColor.R.ToString()), @(chartItems[i].BackgroundColor.G.ToString()), @(chartItems[i].BackgroundColor.B.ToString()), 0.1)'],
-                    borderColor: ['rgba(@(chartItems[i].BorderColor.R.ToString()), @(chartItems[i].BorderColor.G.ToString()), @(chartItems[i].BackgroundColor.B.ToString()))'],
+                    backgroundColor: ['rgba(@(RGBAColorCollection.Collection[i].R), @(RGBAColorCollection.Collection[i].G), @(RGBAColorCollection.Collection[i].B), 0.1)'],
+                    borderColor: ['rgba(@(RGBAColorCollection.Collection[i].R), @(RGBAColorCollection.Collection[i].G), @(RGBAColorCollection.Collection[i].B))'],
                     fill: @(chartItems[i].Fill.ToString().ToLower()),
                     borderWidth: @(chartItems[i].BorderWidth),
                     data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(chartItems[i].LstData.Select(x => x.Price).ToList()))
@@ -40,6 +48,7 @@
                 }]
             };
 
+            // Misc settings
             var options = {
             maintainAspectRatio: false,
             responsive: true,
@@ -47,7 +56,7 @@
             hoverMode: 'index',
             };
 
-
+            // Constructor
             var myChart = new  Chart(ctx, {
                 options: options,
                 data: data,
@@ -56,5 +65,4 @@
         });
     </text>
 }
-
 </script>  
