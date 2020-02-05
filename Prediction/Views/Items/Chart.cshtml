@@ -56,9 +56,11 @@
 
 
 <div class="form-group">
-    @Html.Partial("ChartPartialView/_selectedItems", Model)
+    @Html.Partial("ChartPartialView/_selectedCharting", Model)
 </div>
-
+<div class="form-group">
+    @Html.Partial("ChartPartialView/_navigationSelected", Model)
+</div>
 <style>
     .my-custom-scrollbar {
         position: relative;

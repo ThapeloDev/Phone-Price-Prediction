@@ -65,8 +65,6 @@ namespace Prediction.Models.ChartManual
                 allCharts.Add(new ChartItem
                 {
                     Label = $"{currentBrand.ToString()} {currentModel}",
-                    BackgroundColor = new Chart.Misc.RGBAColor(255, 0, 0),
-                    BorderColor = new Chart.Misc.RGBAColor(255, 0, 0),
                     Fill = false,
                     BorderWidth = 1,
                     // Computers price forecast. Returns a list of objects containing purchase date and price.
@@ -121,7 +119,7 @@ namespace Prediction.Models.ChartManual
                 }
                 else
                 {
-                    Errors.Add($"ERROR: {selectedBrand} {selectedModel} - Not Enough Transactions");
+                    Errors.Add($"{selectedBrand} {selectedModel} - Not Enough Transactions");
                     Errors = Errors.Distinct().ToList();
                 }
             }

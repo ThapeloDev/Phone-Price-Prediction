@@ -37,7 +37,6 @@ namespace Prediction.Controllers
             List<Item> phones = _phoneContext.Items.ToList();
             List<PhoneProperties> phoneInfo = _hardwareContext.PhoneProperties.ToList();
 
-
             if (selectedItems == null)
             {
                 return View(new ManualChart(phones ,phoneInfo));
@@ -77,6 +76,20 @@ namespace Prediction.Controllers
             }
 
             return RedirectToAction("Chart", "Items", new { selectedItems = AllItems });
+        }
+
+        public IActionResult HardwareDetails(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            List<Item> phones = _phoneContext.Items.ToList();
+            List<PhoneProperties> phoneInfo = _hardwareContext.PhoneProperties.ToList();
+
+            ManualChart model = new ManualChart(phones, phoneInfo, new List<int> { id.Value });
+            return View(model);
         }
 
         // GET: Items
@@ -211,6 +224,11 @@ namespace Prediction.Controllers
         private bool ItemExists(int id)
         {
             return _phoneContext.Items.Any(e => e.ItemId == id);
+        }
+
+        public IActionResult RedirectToNotFound()
+        {
+            return NotFound();
         }
     }
 }

@@ -1,0 +1,23 @@
+﻿@model Prediction.Models.ChartManual.ManualChart
+@{
+
+}
+
+@if (Model.SelectedItems.Count() > 0 && Model.SelectedItems != null)
+{
+    <text>
+    <nav class="navbar navbar-light bg-light justify-content-center">
+            <form class="form-inline">
+                @foreach (int i in Model.SelectedItems)
+                {
+                    string currentBrand = Model.Hardware.FirstOrDefault(m => m.ConfigId == i).Brand.ToString();
+                    string currentModel = Model.Hardware.FirstOrDefault(m => m.ConfigId == i).Model;
+                    <text>
+                    <a asp-controller="Items" asp-action="HardwareDetails" asp-route-id="@i" class="btn btn-light" type="button">@currentBrand @currentModel</a>
+                    </text>
+                }
+            </form>
+    </nav>
+    </text>
+}
+
