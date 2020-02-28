@@ -36,10 +36,10 @@
                 <span asp-validation-for="Cpu" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CpuType" class="control-label"></label>
-                <select asp-for="CpuType" asp-items="Html.GetEnumSelectList<Prediction.Models.Hardware.CPUType>()" class="form-control">
+                <label asp-for="CpuCoreCount" class="control-label"></label>
+                <select asp-for="CpuCoreCount" asp-items="Html.GetEnumSelectList<Prediction.Models.Hardware.CPUType>()" class="form-control">
                 </select>
-                <span asp-validation-for="CpuType" class="text-danger"></span>
+                <span asp-validation-for="CpuCoreCount" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CpuSpeed" class="control-label"></label>
@@ -55,16 +55,66 @@
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="HasGPU" /> @Html.DisplayNameFor(model => model.HasGPU)
                 </label>
+                <span asp-validation-for="HasGPU" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GPU" class="control-label"></label>
+                <select asp-for="GPU" asp-items="Html.GetEnumSelectList<Prediction.Models.Enums.GPUType>()" class="form-control"></select>
+                <span asp-validation-for="GPU" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="HeadphoneOutput" /> @Html.DisplayNameFor(model => model.HeadphoneOutput)
                 </label>
+                <span asp-validation-for="HeadphoneOutput" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Capable5g" /> @Html.DisplayNameFor(model => model.Capable5g)
+                    <input class="form-check-input" asp-for="Is2gCapable" /> @Html.DisplayNameFor(model => model.Is2gCapable)
                 </label>
+                <span asp-validation-for="Is2gCapable" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Is3gCapable" /> @Html.DisplayNameFor(model => model.Is3gCapable)
+                </label>
+                <span asp-validation-for="Is5gCapable" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Is4gCapable" /> @Html.DisplayNameFor(model => model.Is4gCapable)
+                </label>
+                <span asp-validation-for="Is4gCapable" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Is5gCapable" /> @Html.DisplayNameFor(model => model.Is5gCapable)
+                </label>
+                <span asp-validation-for="Is5gCapable" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="HasBluetooth" /> @Html.DisplayNameFor(model => model.HasBluetooth)
+                </label>
+                <span asp-validation-for="HasBluetooth" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsWifiCapable" /> @Html.DisplayNameFor(model => model.IsWifiCapable)
+                </label>
+                <span asp-validation-for="IsWifiCapable" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="BuiltInCamera" /> @Html.DisplayNameFor(model => model.BuiltInCamera)
+                </label>
+                <span asp-validation-for="BuiltInCamera" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="FrontCamera" /> @Html.DisplayNameFor(model => model.FrontCamera)
+                </label>
+                <span asp-validation-for="FrontCamera" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FrontCameraMegapixel" class="control-label"></label>
@@ -77,10 +127,37 @@
                 <span asp-validation-for="BackCameraMegapixel" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="MaximumLensApeture" class="control-label"></label>
+                <input asp-for="MaximumLensApeture" class="form-control" />
+                <span asp-validation-for="MaximumLensApeture" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RearCameraCount" class="control-label"></label>
+                <input asp-for="RearCameraCount" class="form-control" />
+                <span asp-validation-for="RearCameraCount" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="CanRecordVideo" /> @Html.DisplayNameFor(model => model.CanRecordVideo)
+                </label>
+                <span asp-validation-for="CanRecordVideo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaxFramerateMaxResolution" class="control-label"></label>
+                <input asp-for="MaxFramerateMaxResolution" class="form-control" />
+                <span asp-validation-for="MaxFramerateMaxResolution" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaxFramerateMinResolution" class="control-label"></label>
+                <input asp-for="MaxFramerateMinResolution" class="form-control" />
+                <span asp-validation-for="MaxFramerateMinResolution" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="BatteryCapacity" class="control-label"></label>
                 <input asp-for="BatteryCapacity" class="form-control" />
                 <span asp-validation-for="BatteryCapacity" class="text-danger"></span>
             </div>
+
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="ExchangableBattery" /> @Html.DisplayNameFor(model => model.ExchangableBattery)
@@ -114,7 +191,7 @@
             <div class="form-group">
                 <label asp-for="WirelessStandard" class="control-label"></label>
                 <select asp-for="WirelessStandard" asp-items="Html.GetEnumSelectList<Prediction.Models.Hardware.Enum.WirelessStandard>()" class="form-control">
-                </select>                
+                </select>
                 <span asp-validation-for="WirelessStandard" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
@@ -125,7 +202,7 @@
             <div class="form-group">
                 <label asp-for="SimCard" class="control-label"></label>
                 <select asp-for="SimCard" asp-items="Html.GetEnumSelectList<Prediction.Models.Hardware.Enum.SIMCard>()" class="form-control">
-                </select>                
+                </select>
                 <span asp-validation-for="SimCard" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
@@ -139,9 +216,19 @@
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="ReleaseYear" class="control-label"></label>
-                <input asp-for="ReleaseYear" class="form-control" />
-                <span asp-validation-for="ReleaseYear" class="text-danger"></span>
+                <label asp-for="OriginalPrice" class="control-label"></label>
+                <input asp-for="OriginalPrice" class="form-control" />
+                <span asp-validation-for="OriginalPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReleaseDate" class="control-label"></label>
+                <input asp-for="ReleaseDate" class="form-control" />
+                <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductPage" class="control-label"></label>
+                <input asp-for="ProductPage" class="form-control" />
+                <span asp-validation-for="ProductPage" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

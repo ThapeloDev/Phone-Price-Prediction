@@ -25,7 +25,7 @@
                 @Html.DisplayNameFor(model => model.Cpu)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CpuType)
+                @Html.DisplayNameFor(model => model.CpuCoreCount)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CpuSpeed)
@@ -40,7 +40,7 @@
                 @Html.DisplayNameFor(model => model.HeadphoneOutput)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Capable5g)
+                @Html.DisplayNameFor(model => model.Is5gCapable)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FrontCameraMegapixel)
@@ -85,7 +85,7 @@
                 @Html.DisplayNameFor(model => model.WaterResistance)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ReleaseYear)
+                @Html.DisplayNameFor(model => model.ReleaseDate)
             </th>
             <th></th>
         </tr>
@@ -106,7 +106,7 @@
                 @Html.DisplayFor(modelItem => item.Cpu)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CpuType)
+                @Html.DisplayFor(modelItem => item.CpuCoreCount)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CpuSpeed)
@@ -121,7 +121,7 @@
                 @Html.DisplayFor(modelItem => item.HeadphoneOutput)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Capable5g)
+                @Html.DisplayFor(modelItem => item.Is5gCapable)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FrontCameraMegapixel)
@@ -166,7 +166,7 @@
                 @Html.DisplayFor(modelItem => item.WaterResistance)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ReleaseYear)
+                @Html.DisplayFor(modelItem => item.ReleaseDate)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ConfigId">Edit</a> |

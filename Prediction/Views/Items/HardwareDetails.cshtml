@@ -51,10 +51,10 @@
                 @selectedPhone.Cpu
             </dd>
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(x => x.Hardware[0].CpuType)
+                @Html.DisplayNameFor(x => x.Hardware[0].CpuCoreCount)
             </dt>
             <dd class="col-sm-10">
-                @selectedPhone.CpuType
+                @selectedPhone.CpuCoreCount
             </dd>
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(x => x.Hardware[0].CpuSpeed)
@@ -81,10 +81,10 @@
                 @selectedPhone.HeadphoneOutput
             </dd>
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(x => x.Hardware[0].Capable5g)
+                @Html.DisplayNameFor(x => x.Hardware[0].Is5gCapable)
             </dt>
             <dd class="col-sm-10">
-                @selectedPhone.Capable5g
+                @selectedPhone.Is5gCapable
             </dd>
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(x => x.Hardware[0].FrontCameraMegapixel)
@@ -165,10 +165,10 @@
                 @selectedPhone.WaterResistance
             </dd>
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(x => x.Hardware[0].ReleaseYear)
+                @Html.DisplayNameFor(x => x.Hardware[0].ReleaseDate)
             </dt>
             <dd class="col-sm-10">
-                @selectedPhone.ReleaseYear
+                @selectedPhone.ReleaseDate
             </dd>
         </dl>
     </div>

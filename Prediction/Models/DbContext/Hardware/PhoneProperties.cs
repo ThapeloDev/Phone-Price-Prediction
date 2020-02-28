@@ -19,10 +19,11 @@ namespace Prediction.Models.Hardware
 
         // Storage
         public Storage Storage { get; set; }
+        public bool HasMemoryCardReader { get; set; }
 
         // CPU
         public CPU Cpu { get; set; }
-        public CPUType CpuType { get; set; }
+        public int CpuCoreCount { get; set; }
         public double CpuSpeed { get; set; }
         
         // RAM
@@ -30,16 +31,28 @@ namespace Prediction.Models.Hardware
         
         //GPU
         public bool HasGPU { get; set; }
+        public GPUType GPU { get; set; }
         
-        // Headphone Jack
+        // Connectors and Communication
         public bool HeadphoneOutput { get; set; }
-        
-        // Networking
-        public bool Capable5g { get; set; }
+        public bool Is2gCapable { get; set; }
+        public bool Is3gCapable { get; set; }
+        public bool Is4gCapable { get; set; }
+        public bool Is5gCapable { get; set; }
+        public bool HasBluetooth { get; set; }
+        public bool HasGPS { get; set; }
+        public bool IsWifiCapable { get; set; }
         
         // Camera
+        public bool BuiltInCamera { get; set; }
+        public bool FrontCamera { get; set; }
         public int FrontCameraMegapixel { get; set; }
         public int BackCameraMegapixel { get; set; }
+        public double MaximumLensApeture { get; set; }
+        public int RearCameraCount { get; set; }
+        public bool CanRecordVideo { get; set; }
+        public int MaxFramerateMaxResolution { get; set; }
+        public int MaxFramerateMinResolution { get; set; }
         
         // Battery
         public int BatteryCapacity { get; set; }
@@ -60,7 +73,12 @@ namespace Prediction.Models.Hardware
         public bool WaterResistance { get; set; }
 
         // Release
-        public int ReleaseYear { get; set; }
+        public double OriginalPrice { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime ReleaseDate { get; set; }
+
+        //Link
+        public string ProductPage { get; set; }
 
         // User interaction
         public bool isSelected { get; set; }
