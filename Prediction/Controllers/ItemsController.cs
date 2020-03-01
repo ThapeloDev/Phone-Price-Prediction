@@ -10,14 +10,12 @@ using Prediction.Models.Chart;
 using Prediction.Models.Enums;
 using Prediction.Models.Time_Series_Forecasting;
 using Prediction.Models.Time_Series_Forecasting.Cleaning;
-using ChartJSCore.Models;
-using ChartJSCore.Helpers;
-using ChartJSCore.Plugins;
 using System.Drawing;
 using Prediction.Models.Chart.Misc;
 using Prediction.Models.Hardware;
 using Prediction.Models.ChartManual;
 using Newtonsoft.Json;
+using Prediction.View_Models.ChartN;
 
 namespace Prediction.Controllers
 {
@@ -77,6 +75,24 @@ namespace Prediction.Controllers
 
             return RedirectToAction("Chart", "Items", new { selectedItems = AllItems });
         }
+
+        public IActionResult Forecast(List<int> selectedItem = null, int months = 12)
+        {
+            List<Item> phonePurchaseHistory = _phoneContext.Items.ToList();
+            List<PhoneProperties> hardware = _hardwareContext.PhoneProperties.ToList();
+
+            if (selectedItem == null)
+            {
+                return View(new PricingChart(phonePurchaseHistory, hardware));
+            }
+            else
+            {
+                PricingChart existingModel = new PricingChart(phonePurchaseHistory, hardware, months, selectedItem);
+                return View(existingModel);
+            }
+        }
+        
+
 
         public IActionResult HardwareDetails(int? id)
         {

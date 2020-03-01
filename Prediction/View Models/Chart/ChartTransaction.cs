@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Prediction.Models.NewChart
 {
-    public class ChartTransaction: IEnumerable
+    public class ChartTransaction : IEnumerable
     {
-        public string Date { get; set; }
+        public DateTime Date { get; set; }
         public double Price { get; set; }
 
         public IEnumerator GetEnumerator()

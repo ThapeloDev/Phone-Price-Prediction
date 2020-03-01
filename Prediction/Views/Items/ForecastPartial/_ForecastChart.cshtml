@@ -1,7 +1,7 @@
-﻿@model Prediction.Models.ChartManual.ManualChart
+﻿@model Prediction.View_Models.ChartN.PricingChart
 @{
     @using Prediction.Models.Chart.Misc;
-    var chartItems = Model.DrawChart(Model.SelectedItems);
+    var chartItems = Model.DrawChart(Model.SelectedPhones);
     var linePlacement = 48;
 
 }
@@ -10,7 +10,7 @@
 
 <!-- Displays errors -->
 <div class="form-group">
-    @Html.Partial("ChartPartialView/_chartingErrors", Model)
+    @Html.Partial("ForecastPartial/_ForecastErrors", Model)
 </div>
 
 
@@ -50,7 +50,7 @@
         }
     });
 
-    var labels =  @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(chartItems[0].LstData.Select(x => x.Date.Month.ToString() + "/" + x.Date.Year.ToString()).ToList()));
+    var labels =  @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(chartItems[0].LstData.Select(x => x.Date.Month).ToList()));
 
     var config = {
         type: 'line',

@@ -44,7 +44,7 @@ namespace Prediction.Models
                 // Same brand, same model, increased date by one month from latest date
                 phoneCollection.AddItem(PhoneCollection.Phones[0].Brand,
                                         PhoneCollection.Phones[0].Model,
-                                        PhoneCollection.Phones[PhoneCollection.Phones.Count() - 1].Date.AddMonths(1));
+                                        PhoneCollection.Phones[PhoneCollection.Phones.Count - 1].Date.AddMonths(1));
             }
 
             // Calculates expected forecast for all items.

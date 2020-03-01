@@ -1,45 +1,45 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Prediction.Models;
 using Prediction.Models.Enums;
 using Prediction.Models.Hardware;
 using Prediction.Models.NewChart;
 using Prediction.Models.Time_Series_Forecasting;
 using Prediction.Models.Time_Series_Forecasting.Cleaning;
-using Prediction.View_Models.Chart.Misc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-
-
-namespace Prediction.Models.ChartManual
+namespace Prediction.View_Models.ChartN
 {
-    public class ManualChart
+    public class PricingChart
     {
+        private readonly List<Item> m_phones;
+        public List<PhoneProperties> Hardware { get; set; }
+        public List<int> SelectedPhones { get; set; }
+        public int FutureForecastMonths { get; set; }
+        public List<string> Errors { get; set; } = new List<string>();
+        public List<ChartItem> Charts { get; set; }
+        public List<Dictionary<int, List<ChartTransaction>>> ModelPrices { get; set; }
 
-        public ManualChart(List<Item> phones, List<PhoneProperties> hardware, List<int> selectedItems = null, int months = 12)
+        public PricingChart(List<Item> phones, List<PhoneProperties> hardware, int months = 12, List<int> selectedPhones = null)
         {
+            this.m_phones = phones;
             this.Hardware = hardware;
-            this.SelectedItems = selectedItems.Distinct().ToList();
-            this.Phones = phones;
+            this.SelectedPhones = RemoveUnforecastableIds(selectedPhones.Distinct().ToList());
             this.FutureForecastMonths = months;
         }
 
-        public List<PhoneProperties> Hardware { get; set; } = new List<PhoneProperties>();
-        public List<Item> Phones { get; set; } = new List<Item>();
-        public List<int> SelectedItems { get; set; }
-        public List<ChartItem> ChartItems { get; set; } = new List<ChartItem>();
-        public List<string> Errors { get; set; } = new List<string>();
-        public int FutureForecastMonths { get; set; }
-
-
-        #region Generate Chart Data
         public List<ChartItem> DrawChart(List<int> hardwareId)
         {
             List<ChartItem> allCharts = new List<ChartItem>();
 
+            if (hardwareId is null)
+            {
+                throw new ArgumentNullException(null);
+            }
+
             // Itterates through all passed id
-            for(int i = 0; i < hardwareId.Count; i++)
+            for (int i = 0; i < hardwareId.Count; i++)
             {
                 // Find brand and model corresponding to id
                 var currentBrand = Hardware.FirstOrDefault(m => m.ConfigId == hardwareId[i]).Brand;
@@ -55,56 +55,62 @@ namespace Prediction.Models.ChartManual
                     LstData = ComputeForecast(hardwareId[i])
                 });
             }
-
             return allCharts;
         }
 
         private List<ChartTransaction> ComputeForecast(int id)
         {
-            // A ChartTransaction object contains date of purchase and price.
             List<ChartTransaction> transactions = new List<ChartTransaction>();
 
-            // Find brand and model based on passed id
             Brand selectedBrand = Hardware.FirstOrDefault(m => m.ConfigId == id).Brand;
             string selectedModel = Hardware.FirstOrDefault(m => m.ConfigId == id).Model;
 
-            // Generates time series forecast.
             // RemoveUnforecastableIds method already checks if there are enough transactions to compute.
-            int forecastMonths = 12;
-            TimeSeriesPrediction prediction = new TimeSeriesPrediction(Phones, selectedBrand, selectedModel);
-            prediction.GenerateFutureForecast(forecastMonths);
-
+            TimeSeriesPrediction prediction = new TimeSeriesPrediction(m_phones, selectedBrand, selectedModel);
+            prediction.GenerateFutureForecast(FutureForecastMonths);
 
             List<ChartTransaction> transactionRecord = new List<ChartTransaction>();
-            // Itterate through all objects
             foreach (Phone p in prediction.PhoneCollection.Phones)
             {
                 // Adds to the List<Dict<int, ChartTrans>> so calculations can be done
                 // In order to find the best/worst future price
-                this.AddTransactionToRecord(id, new ChartTransaction { Date = p.Date, Price = p.Forecast.Value });
+                transactionRecord.Add(new ChartTransaction
+                {
+                    Date = p.Date,
+                    Price = p.Forecast.Value
+                });
 
-                // Records their date and price.
+                // Adds to the view model, in order to display to the user
                 transactions.Add(new ChartTransaction
                 {
                     Date = p.Date,
                     Price = p.Forecast.Value
                 });
             }
+            this.PermanentlyRecordForecast(id, transactionRecord);
 
             return transactions;
         }
-        #endregion
 
-        #region Filter Unforecastable Ids
-        public List<int> RemoveUnforecastableIds(List<int> hardwareId)
+        private void PermanentlyRecordForecast(int id, List<ChartTransaction> transactions)
+        {
+            // Remove previous record of this phone
+            if(ModelPrices.Exists(x => x.ContainsKey(id))) {
+                ModelPrices.Where(x => x.ContainsKey(id)).First().Remove(id);
+            }
+
+            ModelPrices.Add(new Dictionary<int, List<ChartTransaction>> {{ id, transactions }});
+        }
+
+        private List<int> RemoveUnforecastableIds(List<int> hardwareId)
         {
             List<int> AcceptedIds = new List<int>();
 
-            foreach(int id in hardwareId)
+            foreach (int id in hardwareId)
             {
                 Brand selectedBrand = Hardware.FirstOrDefault(m => m.ConfigId == id).Brand;
                 string selectedModel = Hardware.FirstOrDefault(m => m.ConfigId == id).Model;
-                if (DataAuditing.HasEnoughTransactions(Phones, selectedBrand, selectedModel))
+                if (DataAuditing.HasEnoughTransactions(m_phones, selectedBrand, selectedModel))
                 {
                     AcceptedIds.Add(id);
                 }
@@ -117,43 +123,5 @@ namespace Prediction.Models.ChartManual
 
             return AcceptedIds;
         }
-
-        public List<int> RemoveDuplicateIds()
-        {
-            return SelectedItems.Distinct().ToList();
-        }
-        #endregion
-
-        #region Select/Unselect
-        public void UpdateSelectedItems(List<int> hardwareId)
-        {
-            foreach(PhoneProperties prop in Hardware)
-            {
-                if(hardwareId.Contains(prop.ConfigId))
-                {
-                    prop.isSelected = true;
-                }
-                else
-                {
-                    prop.isSelected = false;
-                }
-            }
-        }
-        #endregion
-
-        private void AddTransactionToRecord(int id, ChartTransaction transaction)
-        {
-
-            if ( ForecastRecord._dict.ContainsKey(id))
-            {
-                ForecastRecord._dict[id].Add(transaction);
-            }
-            else
-            {
-                ForecastRecord._dict.Add(id, new List<ChartTransaction> { { transaction } });
-            }
-
-        }
-
     }
 }
