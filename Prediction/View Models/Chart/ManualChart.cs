@@ -179,7 +179,7 @@ namespace Prediction.Models.ChartManual
                 {
                     price = min;
                     id = currentId;
-                    date = ForecastRecord._dict[currentId].Where(x => x.Price == min).Select(x => x.Date).SingleOrDefault();
+                    date = ForecastRecord._dict[currentId].Where(x => x.Price == min).Select(x => x.Date).FirstOrDefault();
                 }
             }
 
@@ -200,7 +200,7 @@ namespace Prediction.Models.ChartManual
                 {
                     price = max;
                     id = currentId;
-                    date = ForecastRecord._dict[currentId].Where(x => x.Price == max).Select(x => x.Date).SingleOrDefault();
+                    date = ForecastRecord._dict[currentId].Where(x => x.Price == max).Select(x => x.Date).FirstOrDefault();
                 }
             }
 
@@ -214,7 +214,7 @@ namespace Prediction.Models.ChartManual
             foreach (int currentId in ForecastRecord._dict.Keys)
             {
                 double minPrice = ForecastRecord._dict[currentId].TakeLast(FutureForecastMonths).Min(x => x.Price);
-                DateTime date = ForecastRecord._dict[currentId].Where(x => x.Price == minPrice).Select(x => x.Date).SingleOrDefault();
+                DateTime date = ForecastRecord._dict[currentId].Where(x => x.Price == minPrice).Select(x => x.Date).FirstOrDefault();
                 lowestPrices.Add(new Tuple<int, DateTime, double>(currentId, date, minPrice));
             }
 
@@ -228,7 +228,7 @@ namespace Prediction.Models.ChartManual
             foreach(int currentId in ForecastRecord._dict.Keys)
             {
                 double maxPrice = ForecastRecord._dict[currentId].TakeLast(FutureForecastMonths).Max(x => x.Price);
-                DateTime date = ForecastRecord._dict[currentId].Where(x => x.Price == maxPrice).Select(x => x.Date).SingleOrDefault();
+                DateTime date = ForecastRecord._dict[currentId].Where(x => x.Price == maxPrice).Select(x => x.Date).FirstOrDefault();
                 highestPrices.Add(new Tuple<int, DateTime, double>(currentId, date, maxPrice));
             }
 
@@ -313,12 +313,6 @@ namespace Prediction.Models.ChartManual
             }
 
             return eligibleIds;
-        }
-
-        private int GetMonthDifference(DateTime date1, DateTime date2)
-        {
-            var datetimeSpan = DateTimeSpan.CompareDates(date1, date2);
-            return (datetimeSpan.Years * 12 + datetimeSpan.Months);
         }
     }
 }
