@@ -30,23 +30,23 @@ namespace Prediction.Controllers
             _hardwareContext = hardwareContext;
         }
 
-        public IActionResult Chart(List<int> selectedItems = null)
+        public IActionResult Chart(List<int> selectedItems = null, int forecastMonths = 12)
         {
             List<Item> phones = _phoneContext.Items.ToList();
             List<PhoneProperties> phoneInfo = _hardwareContext.PhoneProperties.ToList();
 
             if (selectedItems == null)
             {
-                return View(new ManualChart(phones ,phoneInfo));
+                return View(new ManualChart(phones ,phoneInfo, forecastMonths));
             }
             else
             {
-                ManualChart existingModel = new ManualChart(phones ,phoneInfo, selectedItems);
+                ManualChart existingModel = new ManualChart(phones ,phoneInfo, forecastMonths, selectedItems);
                 return View(existingModel);
             }
         }
 
-        public IActionResult AddToChart(string currentItem, string selectedItems = null)
+        public IActionResult AddToChart(string forecastMonths, string currentItem, string selectedItems = null)
         {
             List<int> AllItems = new List<int>();
             if(selectedItems != null)
@@ -57,10 +57,12 @@ namespace Prediction.Controllers
             int SelectedId = JsonConvert.DeserializeObject<int>(currentItem);
             AllItems.Add(SelectedId);
 
-            return RedirectToAction("Chart", "Items", new { selectedItems = AllItems });
+            int forecast = JsonConvert.DeserializeObject<int>(forecastMonths);
+
+            return RedirectToAction("Chart", "Items", new { selectedItems = AllItems, forecastMonths = forecast });
         }
 
-        public IActionResult RemoveFromChart(string currentItem, string selectedItems)
+        public IActionResult RemoveFromChart(string currentItem, string selectedItems, string forecastMonths)
         {
             List<int> AllItems = new List<int>();
 
@@ -73,7 +75,18 @@ namespace Prediction.Controllers
                 AllItems.RemoveAll(x => x == SelectedId);
             }
 
-            return RedirectToAction("Chart", "Items", new { selectedItems = AllItems });
+            int forecast = JsonConvert.DeserializeObject<int>(forecastMonths);
+
+            return RedirectToAction("Chart", "Items", new { selectedItems = AllItems, forecastMonths = forecast });
+        }
+
+        [HttpPost]
+        public IActionResult ChangeForecastMonths(string selectedItems, string forecastMonths)
+        {
+            List<int> allIteams = JsonConvert.DeserializeObject<List<int>>(selectedItems);
+            int forecast = JsonConvert.DeserializeObject<int>(forecastMonths);
+
+            return RedirectToAction("Chart", "Items", new { selectedItems = allIteams, forecastMonths = forecast});
         }
 
         public IActionResult Forecast(List<int> selectedItem = null, int months = 12)
@@ -104,7 +117,7 @@ namespace Prediction.Controllers
             List<Item> phones = _phoneContext.Items.ToList();
             List<PhoneProperties> phoneInfo = _hardwareContext.PhoneProperties.ToList();
 
-            ManualChart model = new ManualChart(phones, phoneInfo, new List<int> { id.Value });
+            ManualChart model = new ManualChart(phones, phoneInfo, 12, new List<int> { id.Value });
             return View(model);
         }
 

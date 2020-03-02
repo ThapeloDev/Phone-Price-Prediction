@@ -13,7 +13,26 @@
         System.Diagnostics.Debug.WriteLine($"MAINVIEW ERRORS: {i}");
     }
 
+
 }
+
+<div class="col-8 mx-auto ">
+    <form asp-action="ChangeForecastMonths">
+        <div class="form-group text-center ">
+            <input type="hidden" name="selectedItems" value="@JsonConvert.SerializeObject(Model.SelectedItems)" />
+
+            <div class="d-flex justify-content-center my-4">
+                <span class="font-weight-bold indigo-text mr-2 mt-1">1</span>
+                <input asp-for="FutureForecastMonths" name="forecastMonths" type="range" class="custom-range" min="1" max="12" step="1" />
+                <span class="font-weight-bold indigo-text ml-2 mt-1">12</span>
+            </div>
+
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
+
 
 <div class="table-wrapper-scroll-y my-custom-scrollbar">
     <form method="post">
@@ -36,13 +55,13 @@
                             @if (Model.Hardware[i].isSelected)
                             {
                                 <text>
-                                <a asp-action="RemoveFromChart" asp-route-selectedItems="@JsonConvert.SerializeObject(Model.SelectedItems)" asp-route-currentItem="@JsonConvert.SerializeObject(Model.Hardware[i].ConfigId)">Deselect</a>
+                                    <a asp-action="RemoveFromChart" asp-route-selectedItems="@JsonConvert.SerializeObject(Model.SelectedItems)" asp-route-currentItem="@JsonConvert.SerializeObject(Model.Hardware[i].ConfigId)" asp-route-forecastMonths="@JsonConvert.SerializeObject(Model.FutureForecastMonths)">Deselect</a>
                                 </text>
                             }
                             else
                             {
                                 <text>
-                                    <a asp-action="AddToChart" asp-route-selectedItems="@JsonConvert.SerializeObject(Model.SelectedItems)" asp-route-currentItem="@JsonConvert.SerializeObject(Model.Hardware[i].ConfigId)">Select</a>
+                                    <a asp-action="AddToChart" asp-route-selectedItems="@JsonConvert.SerializeObject(Model.SelectedItems)" asp-route-currentItem="@JsonConvert.SerializeObject(Model.Hardware[i].ConfigId)" asp-route-forecastMonths="@JsonConvert.SerializeObject(Model.FutureForecastMonths)">Select</a>
                                 </text>
                             }
                         </td>
@@ -61,6 +80,10 @@
 <div class="form-group">
     @Html.Partial("ChartPartialView/_navigationSelected", Model)
 </div>
+<div class="form-group">
+
+</div>
+
 <style>
     .my-custom-scrollbar {
         position: relative;
