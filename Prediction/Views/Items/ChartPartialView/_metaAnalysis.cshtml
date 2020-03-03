@@ -1,4 +1,4 @@
-﻿@model Prediction.Models.ChartManual.ManualChart
+﻿@model Prediction.View_Models.Chart.ForecastChart
 @{
     @using Prediction.Models.Enums
     Tuple<int, DateTime, double> highestPriceOverall = Model.FindHighestPriceOverall();
@@ -23,19 +23,19 @@
 
 @if (Model.SelectedItems.Count() > 0 && Model.SelectedItems != null)
 {
-    foreach(int id in eligibleIds)
+    foreach (int id in eligibleIds)
     {
         Brand currentBrand = Model.Hardware.Where(x => x.ConfigId == id).Select(x => x.Brand).FirstOrDefault();
         string currentModel = Model.Hardware.Where(x => x.ConfigId == id).Select(x => x.Model).FirstOrDefault();
-        
+
         DateTime highestPriceDateTime = highestPricesModel.Where(x => x.Item1 == id).Select(x => x.Item2).FirstOrDefault();
         DateTime lowestPriceDateTime = lowestPricesModel.Where(x => x.Item1 == id).Select(x => x.Item2).FirstOrDefault();
-        
+
         double highestPrice = highestPricesModel.Where(x => x.Item1 == id).Select(x => x.Item3).FirstOrDefault();
         double lowestPrice = lowestPricesModel.Where(x => x.Item1 == id).Select(x => x.Item3).FirstOrDefault();
         <text>
             <p>
-                <b>@(currentBrand.ToString()) @currentModel</b> <br /> 
+                <b>@(currentBrand.ToString()) @currentModel</b> <br />
                 Highest Price: @highestPrice -- @highestPriceDateTime <br />
                 Lowest Price: @lowestPrice  -- @lowestPriceDateTime
             </p>

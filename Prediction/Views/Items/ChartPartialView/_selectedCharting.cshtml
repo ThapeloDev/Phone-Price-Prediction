@@ -1,4 +1,4 @@
-﻿@model Prediction.View_Models.Chart.ManualChart
+﻿@model Prediction.View_Models.Chart.ForecastChart
 @{
     @using Prediction.Models.Chart.Misc;
     var chartItems = Model.DrawChart(Model.SelectedItems);
@@ -19,7 +19,6 @@
         <canvas id="myChart" style="width:100%; height:400px"></canvas>
     </div>
 </div>
-
 
 
 <script type="text/javascript">

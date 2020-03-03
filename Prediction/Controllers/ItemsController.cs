@@ -31,11 +31,11 @@ namespace Prediction.Controllers
 
             if (selectedItems == null)
             {
-                return View(new ManualChart(phones, phoneInfo, forecastMonths));
+                return View(new ForecastChart(phones, phoneInfo, forecastMonths));
             }
             else
             {
-                ManualChart existingModel = new ManualChart(phones, phoneInfo, forecastMonths, selectedItems);
+                ForecastChart existingModel = new ForecastChart(phones, phoneInfo, forecastMonths, selectedItems);
                 return View(existingModel);
             }
         }
@@ -93,8 +93,9 @@ namespace Prediction.Controllers
 
             List<Item> transactions = _phoneContext.Items.ToList();
             List<PhoneProperties> hardware = _hardwareContext.PhoneProperties.ToList();
+            HistoricalChart model = new HistoricalChart(id.Value, transactions, hardware);
 
-            return View();
+            return View(model);
         }
 
 
@@ -108,7 +109,7 @@ namespace Prediction.Controllers
             List<Item> phones = _phoneContext.Items.ToList();
             List<PhoneProperties> phoneInfo = _hardwareContext.PhoneProperties.ToList();
 
-            ManualChart model = new ManualChart(phones, phoneInfo, 12, new List<int> { id.Value });
+            ForecastChart model = new ForecastChart(phones, phoneInfo, 12, new List<int> { id.Value });
             return View(model);
         }
 

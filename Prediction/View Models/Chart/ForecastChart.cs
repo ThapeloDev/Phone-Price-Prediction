@@ -12,10 +12,10 @@ using System.Linq;
 
 namespace Prediction.View_Models.Chart
 {
-    public class ManualChart
+    public class ForecastChart
     {
 
-        public ManualChart(List<Item> phones, List<PhoneProperties> hardware, int months = 12, List<int> selectedItems = null)
+        public ForecastChart(List<Item> phones, List<PhoneProperties> hardware, int months = 12, List<int> selectedItems = null)
         {
             this.Hardware = hardware;
             this.Phones = phones;
@@ -23,11 +23,11 @@ namespace Prediction.View_Models.Chart
             this.SelectedItems = ContainsEnoughData(selectedItems.Distinct().ToList());
         }
 
-        public List<PhoneProperties> Hardware { get; set; } = new List<PhoneProperties>();
-        public List<Item> Phones { get; set; } = new List<Item>();
-        public List<int> SelectedItems { get; set; }
-        public List<ChartItem> ChartItems { get; set; } = new List<ChartItem>();
-        public List<string> Errors { get; set; } = new List<string>();
+        public List<PhoneProperties> Hardware { get; }
+        public List<Item> Phones { get; }
+        public List<int> SelectedItems { get; set;  }
+        public List<ChartItem> ChartItems { get; } = new List<ChartItem>();
+        public List<string> Errors { get; set;  } = new List<string>();
         public int FutureForecastMonths { get; set; }
         private const int ALLOWED_TRANSACTION_GAP_MONTHS = 3;
 
