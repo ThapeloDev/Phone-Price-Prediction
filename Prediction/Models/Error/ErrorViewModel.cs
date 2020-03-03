@@ -1,5 +1,3 @@
-using System;
-
 namespace Prediction.Models
 {
     public class ErrorViewModel

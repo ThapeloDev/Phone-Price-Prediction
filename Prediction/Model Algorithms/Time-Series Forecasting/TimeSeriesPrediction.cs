@@ -1,11 +1,8 @@
 ﻿using Prediction.Models.Enums;
 using Prediction.Models.Time_Series_Forecasting;
 using Prediction.Models.Time_Series_Forecasting.Business_Logic;
-using Prediction.Models.Time_Series_Forecasting.Cleaning;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Prediction.Models
 {
@@ -14,7 +11,7 @@ namespace Prediction.Models
         public TimeSeriesPrediction(List<Item> items, Timeframe timeframe = Timeframe.Monthly)
         {
             List<Phone> phones = new List<Phone>();
-            foreach(Item item in items)
+            foreach (Item item in items)
                 phones.Add(new Phone(item.Brand, item.Model, item.Date, item.Price));
 
             // Create a PhoneCollection from passed items.
@@ -38,7 +35,7 @@ namespace Prediction.Models
         public void GenerateFutureForecast(int months = 12, Timeframe timeframe = Timeframe.Monthly)
         {
             // Generates required amount of items
-            for(int i = 0; i < months; i++)
+            for (int i = 0; i < months; i++)
             {
                 // Note: Data has already been pre-processed, no need for additional checks.
                 // Same brand, same model, increased date by one month from latest date
@@ -58,6 +55,6 @@ namespace Prediction.Models
                 }
             }
         }
-       
+
     }
 }

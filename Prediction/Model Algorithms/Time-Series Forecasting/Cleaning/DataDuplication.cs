@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Prediction.Models.Time_Series_Forecasting.Cleaning
 {
@@ -37,8 +36,8 @@ namespace Prediction.Models.Time_Series_Forecasting.Cleaning
                         var occurancesOfItem = collection.Phones
                                                .Where(i => i.Date.Month == date.Month)
                                                .Where(i => i.Date.Year == date.Year);
-                        
-                        if(occurancesOfItem.Count() > 1)
+
+                        if (occurancesOfItem.Count() > 1)
                         {
                             // Retrieves current date
                             DateTime currentDate = new DateTime(date.Year, date.Month, 1);

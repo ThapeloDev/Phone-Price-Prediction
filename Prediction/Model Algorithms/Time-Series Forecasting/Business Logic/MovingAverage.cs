@@ -1,8 +1,6 @@
 ﻿using Prediction.Models.Enums;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Prediction.Models.Time_Series_Forecasting.Business_Logic
 {
@@ -10,7 +8,7 @@ namespace Prediction.Models.Time_Series_Forecasting.Business_Logic
     {
         public static List<Phone> Calculate(PhoneCollection collection, Timeframe timeframe = Timeframe.Quarterly)
         {
-            for(int index = 0; index < collection.Phones.Count(); index ++)
+            for (int index = 0; index < collection.Phones.Count(); index++)
             {
                 if (collection.Phones.ElementAtOrDefault(index - 2) != null && collection.Phones.ElementAtOrDefault(index - 3 + (int)timeframe) != null)
                 {

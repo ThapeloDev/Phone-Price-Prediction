@@ -1,10 +1,7 @@
 ﻿using Prediction.Models.Enums;
 using Prediction.Models.Hardware.Enum;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Prediction.Models.Hardware
 {
@@ -12,7 +9,7 @@ namespace Prediction.Models.Hardware
     {
         [Key]
         public int ConfigId { get; set; }
-     
+
         // Basic naming information
         public Brand Brand { get; set; }
         public string Model { get; set; }
@@ -25,14 +22,14 @@ namespace Prediction.Models.Hardware
         public CPU Cpu { get; set; }
         public int CpuCoreCount { get; set; }
         public double CpuSpeed { get; set; }
-        
+
         // RAM
         public int RAM { get; set; }
-        
+
         //GPU
         public bool HasGPU { get; set; }
         public GPUType GPU { get; set; }
-        
+
         // Connectors and Communication
         public bool HeadphoneOutput { get; set; }
         public bool Is2gCapable { get; set; }
@@ -42,7 +39,7 @@ namespace Prediction.Models.Hardware
         public bool HasBluetooth { get; set; }
         public bool HasGPS { get; set; }
         public bool IsWifiCapable { get; set; }
-        
+
         // Camera
         public bool BuiltInCamera { get; set; }
         public bool FrontCamera { get; set; }
@@ -53,7 +50,7 @@ namespace Prediction.Models.Hardware
         public bool CanRecordVideo { get; set; }
         public int MaxFramerateMaxResolution { get; set; }
         public int MaxFramerateMinResolution { get; set; }
-        
+
         // Battery
         public int BatteryCapacity { get; set; }
         public bool ExchangableBattery { get; set; }

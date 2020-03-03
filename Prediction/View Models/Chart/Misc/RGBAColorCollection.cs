@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Prediction.Models.Chart.Misc
 {
     public static class RGBAColorCollection
     {
-        public static List<RGBAColor> Collection = new List<RGBAColor>() { 
+        public static List<RGBAColor> Collection = new List<RGBAColor>() {
             new RGBAColor(0, 72, 186),
             new RGBAColor(175, 0, 42),
             new RGBAColor(59, 122, 87),
@@ -44,8 +42,8 @@ namespace Prediction.Models.Chart.Misc
             // Upper boundry of the random number generator is exclusive
             // Hence, range is: [0, 256) or [0, 255]
             return new RGBAColor(
-                new Random().Next(0, 256), 
-                new Random().Next(0, 256), 
+                new Random().Next(0, 256),
+                new Random().Next(0, 256),
                 new Random().Next(0, 256)
                 );
         }

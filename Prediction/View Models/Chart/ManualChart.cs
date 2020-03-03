@@ -1,19 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Prediction.Models;
 using Prediction.Models.Enums;
 using Prediction.Models.Hardware;
 using Prediction.Models.NewChart;
 using Prediction.Models.Time_Series_Forecasting;
 using Prediction.Models.Time_Series_Forecasting.Cleaning;
+using Prediction.Utilities;
 using Prediction.View_Models.Chart.Misc;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Prediction.Utilities;
 
-
-namespace Prediction.Models.ChartManual
+namespace Prediction.View_Models.Chart
 {
     public class ManualChart
     {
@@ -95,7 +92,7 @@ namespace Prediction.Models.ChartManual
 
                 // Forecast is generated using ALL data
                 // Chart only displays data from the last 2 years + the forecast
-                if(yearDifference <= 2)
+                if (yearDifference <= 2)
                 {
                     // Adds to the List<Dict<int, ChartTrans>> so calculations can be done
                     // In order to find the best/worst future price
@@ -225,7 +222,7 @@ namespace Prediction.Models.ChartManual
         {
             List<Tuple<int, DateTime, double>> highestPrices = new List<Tuple<int, DateTime, double>>();
 
-            foreach(int currentId in ForecastRecord._dict.Keys)
+            foreach (int currentId in ForecastRecord._dict.Keys)
             {
                 double maxPrice = ForecastRecord._dict[currentId].TakeLast(FutureForecastMonths).Max(x => x.Price);
                 DateTime date = ForecastRecord._dict[currentId].Where(x => x.Price == maxPrice).Select(x => x.Date).FirstOrDefault();
@@ -278,7 +275,7 @@ namespace Prediction.Models.ChartManual
 
             DateTime today = DateTime.Today;
 
-            foreach(int id in selectedIds)
+            foreach (int id in selectedIds)
             {
                 Brand selectedBrand = Hardware.FirstOrDefault(x => x.ConfigId == id).Brand;
                 string selectedModel = Hardware.FirstOrDefault(x => x.ConfigId == id).Model;
@@ -301,10 +298,11 @@ namespace Prediction.Models.ChartManual
 
                 System.Diagnostics.Debug.WriteLine($"INSIDE CONTAINS ID:\n    Brand {selectedBrand} Model {selectedModel}\n    Today: {today} Latest Date {latestTransactionDate}\n    Month Difference {monthDifference}");
 
-                if(latestTransactionDate != null && monthDifference <= ALLOWED_TRANSACTION_GAP_MONTHS)
+                if (latestTransactionDate != null && monthDifference <= ALLOWED_TRANSACTION_GAP_MONTHS)
                 {
                     eligibleIds.Add(id);
-                } else
+                }
+                else
                 {
                     Errors.Add($"{selectedBrand} {selectedModel} - {monthDifference} months of data is missing.");
                     Errors = Errors.Distinct().ToList();

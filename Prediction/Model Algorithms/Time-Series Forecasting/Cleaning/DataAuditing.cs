@@ -3,7 +3,6 @@ using Prediction.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Prediction.Models.Time_Series_Forecasting.Cleaning
 {
@@ -24,7 +23,7 @@ namespace Prediction.Models.Time_Series_Forecasting.Cleaning
         public static bool HasEnoughTransactions(List<Item> list, Brand brand, string model)
         {
             List<Item> transactions = list.Where(m => m.Brand == brand).Where(m => m.Model == model).ToList();
-            
+
 
             if (transactions.Count() <= 1 || transactions == null)
                 return false;

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Prediction.Models.Chart.Misc
+﻿namespace Prediction.Models.Chart.Misc
 {
     public class RGBAColor
     {

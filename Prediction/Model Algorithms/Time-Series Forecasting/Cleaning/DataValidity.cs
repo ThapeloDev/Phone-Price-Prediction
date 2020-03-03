@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Prediction.Models.Time_Series_Forecasting.Cleaning
 {
@@ -11,7 +10,7 @@ namespace Prediction.Models.Time_Series_Forecasting.Cleaning
     {
         public static List<Phone> RemoveSpaces(PhoneCollection collection)
         {
-            foreach(Phone p in collection.Phones)
+            foreach (Phone p in collection.Phones)
             {
                 p.Model.Trim();
             }
@@ -87,7 +86,7 @@ namespace Prediction.Models.Time_Series_Forecasting.Cleaning
             {
                 throw new Exception("Pre-processing exception: Collection is ambiguous.");
             }
-            
+
             return CalculatePrice(phoneBefore, phoneAfter);
 
         }

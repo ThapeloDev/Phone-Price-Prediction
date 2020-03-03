@@ -1,21 +1,14 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Prediction.Models;
+using Prediction.Models.Enums;
+using Prediction.Models.Hardware;
+using Prediction.Models.Time_Series_Forecasting;
+using Prediction.View_Models.Chart;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Prediction.Models;
-using Prediction.Models.Chart;
-using Prediction.Models.Enums;
-using Prediction.Models.Time_Series_Forecasting;
-using Prediction.Models.Time_Series_Forecasting.Cleaning;
-using System.Drawing;
-using Prediction.Models.Chart.Misc;
-using Prediction.Models.Hardware;
-using Prediction.Models.ChartManual;
-using Newtonsoft.Json;
-using Prediction.View_Models.ChartN;
 
 namespace Prediction.Controllers
 {
@@ -30,6 +23,7 @@ namespace Prediction.Controllers
             _hardwareContext = hardwareContext;
         }
 
+        #region Forecast
         public IActionResult Chart(List<int> selectedItems = null, int forecastMonths = 12)
         {
             List<Item> phones = _phoneContext.Items.ToList();
@@ -37,11 +31,11 @@ namespace Prediction.Controllers
 
             if (selectedItems == null)
             {
-                return View(new ManualChart(phones ,phoneInfo, forecastMonths));
+                return View(new ManualChart(phones, phoneInfo, forecastMonths));
             }
             else
             {
-                ManualChart existingModel = new ManualChart(phones ,phoneInfo, forecastMonths, selectedItems);
+                ManualChart existingModel = new ManualChart(phones, phoneInfo, forecastMonths, selectedItems);
                 return View(existingModel);
             }
         }
@@ -49,7 +43,7 @@ namespace Prediction.Controllers
         public IActionResult AddToChart(string forecastMonths, string currentItem, string selectedItems = null)
         {
             List<int> AllItems = new List<int>();
-            if(selectedItems != null)
+            if (selectedItems != null)
             {
                 var SelectedItems = JsonConvert.DeserializeObject<List<int>>(selectedItems);
                 AllItems.AddRange(SelectedItems);
@@ -86,25 +80,22 @@ namespace Prediction.Controllers
             List<int> allIteams = JsonConvert.DeserializeObject<List<int>>(selectedItems);
             int forecast = JsonConvert.DeserializeObject<int>(forecastMonths);
 
-            return RedirectToAction("Chart", "Items", new { selectedItems = allIteams, forecastMonths = forecast});
+            return RedirectToAction("Chart", "Items", new { selectedItems = allIteams, forecastMonths = forecast });
         }
+        #endregion
 
-        public IActionResult Forecast(List<int> selectedItem = null, int months = 12)
+        public IActionResult Info(int? id)
         {
-            List<Item> phonePurchaseHistory = _phoneContext.Items.ToList();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            List<Item> transactions = _phoneContext.Items.ToList();
             List<PhoneProperties> hardware = _hardwareContext.PhoneProperties.ToList();
 
-            if (selectedItem == null)
-            {
-                return View(new PricingChart(phonePurchaseHistory, hardware));
-            }
-            else
-            {
-                PricingChart existingModel = new PricingChart(phonePurchaseHistory, hardware, months, selectedItem);
-                return View(existingModel);
-            }
+            return View();
         }
-        
 
 
         public IActionResult HardwareDetails(int? id)

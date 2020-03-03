@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Prediction.Models.Hardware
+﻿namespace Prediction.Models.Hardware
 {
-   public enum Storage
+    public enum Storage
     {
         G32 = 1,
         G64,
