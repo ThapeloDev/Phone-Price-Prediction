@@ -97,7 +97,6 @@ namespace Prediction.View_Models.Chart
                     // Adds to the List<Dict<int, ChartTrans>> so calculations can be done
                     // In order to find the best/worst future price
                     this.AddTransactionToRecord(id, new ChartTransaction { Date = p.Date, Price = p.Forecast.Value });
-                    System.Diagnostics.Debug.WriteLine($"GENERATING FORECAST: {p.Date} - {p.Forecast.Value}");
                     // Records their date and price.
                     transactions.Add(new ChartTransaction
                     {

@@ -15,7 +15,7 @@
             <input type="hidden" asp-for="ConfigId" />
             <div class="form-group">
                 <label asp-for="Brand" class="control-label"></label>
-                <select asp-for="Brand" asp-items="Html.GetEnumSelectList<Prediction.Models.Enums.Brand>()" class="form-control"> </select>
+                <select asp-for="Brand" class="form-control"></select>
                 <span asp-validation-for="Brand" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -35,7 +35,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Cpu" class="control-label"></label>
-                <select asp-for="Cpu" asp-items="Html.GetEnumSelectList<Prediction.Models.Hardware.CPU>()" class="form-control"> </select>
+                <select asp-for="Cpu" class="form-control"></select>
                 <span asp-validation-for="Cpu" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -60,7 +60,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="GPU" class="control-label"></label>
-                <select asp-for="GPU" asp-items="Html.GetEnumSelectList<Prediction.Models.Enums.GPUType>()" class="form-control"> </select>
+                <select asp-for="GPU" class="form-control"></select>
                 <span asp-validation-for="GPU" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
@@ -185,7 +185,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="WirelessStandard" class="control-label"></label>
-                <select asp-for="WirelessStandard" asp-items="Html.GetEnumSelectList<Prediction.Models.Hardware.Enum.WirelessStandard>()" class="form-control"> </select>
+                <select asp-for="WirelessStandard" class="form-control"></select>
                 <span asp-validation-for="WirelessStandard" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
@@ -195,7 +195,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="SimCard" class="control-label"></label>
-                <select asp-for="SimCard" asp-items="Html.GetEnumSelectList<Prediction.Models.Hardware.Enum.SIMCard>()" class="form-control"> </select>
+                <select asp-for="SimCard" class="form-control"></select>
                 <span asp-validation-for="SimCard" class="text-danger"></span>
             </div>
             <div class="form-group form-check">

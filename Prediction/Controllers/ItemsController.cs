@@ -101,27 +101,51 @@ namespace Prediction.Controllers
         }
         #endregion
 
-        public IActionResult HardwareCalc(int? storage, bool? hasMemoryCardReader, int? cpuCoreCount, double? cpuSpeed, 
-            int? ram, bool? headphoneOutput, bool? is5gCapable, int? frontCameraMgpx, int? backCameraMgpx, 
-            int? rearCameraCount, bool? exchangableBattery, bool? wirelessCharging, bool? fastCharging, bool? waterResistant)
+        public IActionResult HardwareCalc(string id = null, int forecastMonths = 12)
         {
-            List<Item> phones = _phoneContext.Items.ToList();
-            List<PhoneProperties> phoneInfo = _hardwareContext.PhoneProperties.ToList();
+            List<Item> transactions = _phoneContext.Items.ToList();
+            List<PhoneProperties> hardware = _hardwareContext.PhoneProperties.ToList();
+            List<int> eligibleIds = new List<int>();
 
-            PurchaseSuggestion model = new PurchaseSuggestion(phones, phoneInfo, storage, hasMemoryCardReader,
-                cpuCoreCount, cpuSpeed, ram, headphoneOutput, is5gCapable, frontCameraMgpx, backCameraMgpx,
-                rearCameraCount, exchangableBattery, wirelessCharging, fastCharging, waterResistant);
-            
-            return View(model);
+            if (id != null)
+            {
+                eligibleIds = JsonConvert.DeserializeObject<List<int>>(id);
+            }
+
+            return View(new PurchaseSuggestion(transactions, hardware, eligibleIds));
         }
 
         public IActionResult ChangeSpecs(int? storage, bool? hasMemoryCardReader, int? cpuCoreCount, double? cpuSpeed,
             int? ram, bool? headphoneOutput, bool? is5gCapable, int? frontCameraMgpx, int? backCameraMgpx,
             int? rearCameraCount, bool? exchangableBattery, bool? wirelessCharging, bool? fastCharging, bool? waterResistance)
         {
-            return RedirectToAction("HardwareCalc", "Items", new { storage, hasMemoryCardReader, 
-                cpuCoreCount, cpuSpeed, ram, headphoneOutput, is5gCapable, frontCameraMgpx, backCameraMgpx, 
-                rearCameraCount, exchangableBattery, wirelessCharging, fastCharging, waterResistance});
+            List<PhoneProperties> eligiblePhones = new List<PhoneProperties>();
+            eligiblePhones = _hardwareContext.PhoneProperties.Where(x => (x.HasMemoryCardReader == hasMemoryCardReader || x.HasMemoryCardReader == true) &&
+                                                                         (x.HeadphoneOutput == headphoneOutput || x.HeadphoneOutput == true)  &&
+                                                                         (x.Is5gCapable == is5gCapable || x.Is5gCapable == true) &&
+                                                                         (x.ExchangableBattery == exchangableBattery || x.ExchangableBattery == true) &&
+                                                                         (x.WirelessCharging == wirelessCharging || x.WirelessCharging == true) &&
+                                                                         (x.FastCharging == fastCharging || x.FastCharging == true) &&
+                                                                         (x.WaterResistance == waterResistance || x.WaterResistance == true)).ToList();
+            if (storage.HasValue)
+                eligiblePhones = _hardwareContext.PhoneProperties.Where(x => x.Storage >= storage).ToList();
+            if (cpuCoreCount.HasValue)
+                eligiblePhones = _hardwareContext.PhoneProperties.Where(x => x.CpuCoreCount >= cpuCoreCount).ToList();
+            if (cpuSpeed.HasValue)
+                eligiblePhones = _hardwareContext.PhoneProperties.Where(x => x.CpuSpeed >= cpuSpeed).ToList();
+            if (ram.HasValue)
+                eligiblePhones = _hardwareContext.PhoneProperties.Where(x => x.RAM >= ram).ToList();
+            if (frontCameraMgpx.HasValue)
+                eligiblePhones = _hardwareContext.PhoneProperties.Where(x => x.FrontCameraMegapixel >= frontCameraMgpx).ToList();
+            if (backCameraMgpx.HasValue)
+                eligiblePhones = _hardwareContext.PhoneProperties.Where(x => x.BackCameraMegapixel >= backCameraMgpx).ToList();
+            if (rearCameraCount.HasValue)
+                eligiblePhones = _hardwareContext.PhoneProperties.Where(x => x.RearCameraCount >= rearCameraCount).ToList();
+
+            List<int> eligibleIds = eligiblePhones.Select(x => x.ConfigId).ToList(); 
+            string serializedIds = JsonConvert.SerializeObject(eligibleIds);
+
+            return RedirectToAction("HardwareCalc", "Items", new { id = serializedIds });
         }
 
 

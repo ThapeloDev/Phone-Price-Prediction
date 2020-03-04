@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Prediction.Models.Hardware;
 
 namespace Prediction.Models.Time_Series_Forecasting
 {
@@ -10,5 +11,7 @@ namespace Prediction.Models.Time_Series_Forecasting
         }
 
         public DbSet<Item> Items { get; set; }
+
+        public DbSet<Prediction.Models.Hardware.PhoneProperties> PhoneProperties { get; set; }
     }
 }
