@@ -6,6 +6,7 @@ using Prediction.Models.Enums;
 using Prediction.Models.Hardware;
 using Prediction.Models.Time_Series_Forecasting;
 using Prediction.View_Models.Chart;
+using Prediction.View_Models.Hardware_Suggestion;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -84,6 +85,7 @@ namespace Prediction.Controllers
         }
         #endregion
 
+        #region Phone Info
         public IActionResult Info(int? id)
         {
             if (id == null)
@@ -97,21 +99,35 @@ namespace Prediction.Controllers
 
             return View(model);
         }
+        #endregion
 
-
-        public IActionResult HardwareDetails(int? id)
+        public IActionResult HardwareCalc(int? storage, bool? hasMemoryCardReader, int? cpuCoreCount, double? cpuSpeed, 
+            int? ram, bool? headphoneOutput, bool? is5gCapable, int? frontCameraMgpx, int? backCameraMgpx, 
+            int? rearCameraCount, bool? exchangableBattery, bool? wirelessCharging, bool? fastCharging, bool? waterResistant)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             List<Item> phones = _phoneContext.Items.ToList();
             List<PhoneProperties> phoneInfo = _hardwareContext.PhoneProperties.ToList();
 
-            ForecastChart model = new ForecastChart(phones, phoneInfo, 12, new List<int> { id.Value });
+            PurchaseSuggestion model = new PurchaseSuggestion(phones, phoneInfo, storage, hasMemoryCardReader,
+                cpuCoreCount, cpuSpeed, ram, headphoneOutput, is5gCapable, frontCameraMgpx, backCameraMgpx,
+                rearCameraCount, exchangableBattery, wirelessCharging, fastCharging, waterResistant);
+            
             return View(model);
         }
+
+        public IActionResult ChangeSpecs(int? storage, bool? hasMemoryCardReader, int? cpuCoreCount, double? cpuSpeed,
+            int? ram, bool? headphoneOutput, bool? is5gCapable, int? frontCameraMgpx, int? backCameraMgpx,
+            int? rearCameraCount, bool? exchangableBattery, bool? wirelessCharging, bool? fastCharging, bool? waterResistance)
+        {
+            return RedirectToAction("HardwareCalc", "Items", new { storage, hasMemoryCardReader, 
+                cpuCoreCount, cpuSpeed, ram, headphoneOutput, is5gCapable, frontCameraMgpx, backCameraMgpx, 
+                rearCameraCount, exchangableBattery, wirelessCharging, fastCharging, waterResistance});
+        }
+
+
+
+
+
 
         // GET: Items
         public async Task<IActionResult> Index()

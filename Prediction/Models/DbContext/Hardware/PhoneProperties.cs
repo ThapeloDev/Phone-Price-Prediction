@@ -15,7 +15,7 @@ namespace Prediction.Models.Hardware
         public string Model { get; set; }
 
         // Storage
-        public Storage Storage { get; set; }
+        public int Storage { get; set; }
         public bool HasMemoryCardReader { get; set; }
 
         // CPU

@@ -6,6 +6,13 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Models\Suggestion Algorithm\**" />
+    <Content Remove="Models\Suggestion Algorithm\**" />
+    <EmbeddedResource Remove="Models\Suggestion Algorithm\**" />
+    <None Remove="Models\Suggestion Algorithm\**" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Chart.js" Version="2.9.3" />
@@ -29,7 +36,6 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
-    <Folder Include="Models\Suggestion Algorithm\" />
     <Folder Include="Pages\" />
     <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\images\" />
